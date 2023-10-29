@@ -18,14 +18,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     // local types
     import type { NodeTypesExt, NodeExt, Variable } from "$lib/types";
     // local nodes
-    import ForEach from "$lib/nodes/exec/ForEach.svelte";
-    import JsonExtract from "$lib/nodes/exec/JsonExtract.svelte";
-    import Branch from "$lib/nodes/exec/Branch.svelte";
-    import HttpGet from "$lib/nodes/exec/HttpGet.svelte";
-    import SetVariable from "$lib/nodes/exec/SetVariable.svelte";
-    import Print from "$lib/nodes/exec/Print.svelte";
-    import GetVariable from "$lib/nodes/pure/custom/GetVariable.svelte";
-    import Start from "$lib/nodes/exec/Start.svelte";
     import * as operator_nodes from "$lib/nodes";
     // local edges
     import Deletable from "$lib/edges/Deletable.svelte";
@@ -33,7 +25,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import PropertiesSection from "$lib/components/PropertiesSection.svelte";
     import LiveDebugSection from "$lib/components/LiveDebugSection.svelte";
     // local constants
-    const unlistedNodes = ["Start", "GetVariable", "SetVariable"];
+    const unlistedNodes = ["START", "GET_VARIABLE", "SET_VARIABLE"];
 
     const variables: Writable<Variable> = writable({});
     const nodes: Writable<NodeExt[]> = writable([]);
@@ -41,14 +33,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
     const nodeTypes: NodeTypesExt = {
         ...operator_nodes,
-        ForEach,
-        JsonExtract,
-        Branch,
-        HttpGet,
-        SetVariable,
-        Print,
-        GetVariable,
-        Start,
     };
 
     const nodeList = Object.keys(nodeTypes).filter(

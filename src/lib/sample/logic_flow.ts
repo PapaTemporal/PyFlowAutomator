@@ -6,7 +6,7 @@ export const sample_variables: Variable = { name: "", swapi_url: "https://swapi.
 export const sample_nodes: NodeExt[] = [
     {
         "id": "94969",
-        "type": "Start",
+        "type": "START",
         "data": { "function": "__ignore__" },
         "position": { "x": 478, "y": 257 },
         "positionAbsolute": { "x": 478, "y": 257 },
@@ -16,7 +16,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "95082",
-        "type": "GetVariable",
+        "type": "GET_VARIABLE",
         "data": {
             "kwargs": { "variable_name": "swapi_url" },
             "function": "__ignore__",
@@ -30,7 +30,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "93043",
-        "type": "HttpGet",
+        "type": "HTTP_GET",
         "data": { "args": [null], "function": "requests.get" },
         "position": { "x": 612, "y": 259.75 },
         "positionAbsolute": { "x": 612, "y": 259.75 },
@@ -41,7 +41,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "6367",
-        "type": "JsonExtract",
+        "type": "JSON_PATH",
         "data": {
             "kwargs": { "expression": "$.results" },
             "function": "custom.extract_json",
@@ -55,7 +55,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "77775",
-        "type": "ForEach",
+        "type": "FOR",
         "data": {
             "kwargs": { "next_function": "72374" },
             "function": "custom.for_each",
@@ -69,7 +69,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "72374",
-        "type": "JsonExtract",
+        "type": "JSON_PATH",
         "data": {
             "kwargs": { "expression": "$.name" },
             "function": "custom.extract_json",
@@ -83,7 +83,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "59697",
-        "type": "Branch",
+        "type": "IF",
         "data": {
             "kwargs": { "true": null, "false": null },
             "function": "custom.branch",
@@ -97,7 +97,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "51034",
-        "type": "SetVariable",
+        "type": "SET_VARIABLE",
         "data": {
             "kwargs": { "variable_name": "name", "value": null },
             "function": "custom.set_variable",
@@ -133,7 +133,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "85893",
-        "type": "GetVariable",
+        "type": "GET_VARIABLE",
         "data": { "kwargs": { "variable_name": "name" }, "function": "__ignore__" },
         "position": { "x": 1162.5, "y": 383.25 },
         "positionAbsolute": { "x": 1162.5, "y": 383.25 },
@@ -155,7 +155,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "25228",
-        "type": "Print",
+        "type": "PRINT",
         "data": { "args": [null], "function": "builtins.print" },
         "position": { "x": 1828, "y": 303.25 },
         "positionAbsolute": { "x": 1828, "y": 303.25 },
@@ -166,7 +166,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "82889",
-        "type": "GetVariable",
+        "type": "GET_VARIABLE",
         "data": { "kwargs": { "variable_name": "name" }, "function": "__ignore__" },
         "position": { "x": 1701.5, "y": 351.75 },
         "positionAbsolute": { "x": 1701.5, "y": 351.75 },

@@ -44,5 +44,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     #node span {
         flex: 0 1 auto;
         margin: auto 10px;
+        font-size: medium;
     }
 </style>

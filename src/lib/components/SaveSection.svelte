@@ -17,6 +17,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     export let nodes: Writable<Node[]> = writable([]);
     export let edges: Writable<Edge[]> = writable([]);
     export let variables: Writable<Variable> = writable({});
+    export let nodeList: string[] = [];
 
     $: currentFlow = {
         start_id: $edges.find((edge) => edge.source == "start")?.target,
@@ -41,6 +42,31 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         variables.set(sample_variables);
     }
 
+    function loadAll() {
+        const nodesPerRow = 5;
+        const nodeHeight = 70;
+        const nodeWidth = 200;
+        let x = 0;
+        let y = 0;
+        let newNodes = [];
+        for (let i = 0; i < nodeList.length; i++) {
+            newNodes.push({
+                id: Math.trunc(Math.random() * 100000).toString(),
+                type: nodeList[i],
+                data: {},
+                position: { x: x * nodeWidth, y: y * nodeHeight },
+            });
+            x++;
+            if (x >= nodesPerRow) {
+                x = 0;
+                y++;
+            }
+        }
+        nodes.set(newNodes);
+        edges.set([]);
+        variables.set({});
+    }
+
     function loadFromClipboard() {
         navigator.clipboard.readText().then(
             (text) => {
@@ -60,13 +86,14 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     function clearFlow() {
         nodes.set([]);
         edges.set([]);
-        variables.set([]);
+        variables.set({});
     }
 </script>
 
 <div class="header">File</div>
 <div class="body">
     <button on:click={loadSample}>load sample</button>
+    <button on:click={loadAll}>load all</button>
     <button on:click={loadFromClipboard}>load clipboard</button>
     <button on:click={clearFlow}>clear</button>
     <button on:click={copyToClipboard}>copy</button>

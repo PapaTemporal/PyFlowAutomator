@@ -19,7 +19,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 <div id="node">
     <Handle id="0" type="target" position={Position.Left} style="top: 30%" />
     <Handle id="1" type="target" position={Position.Left} style="top: 70%" />
-    <span>(seq) +=</span>
+    <span>+=<br />(sequence)</span>
     <Handle
         id="__ignore__"
         type="source"
@@ -44,5 +44,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     #node span {
         flex: 0 1 auto;
         margin: auto 10px;
+        text-align: center;
     }
 </style>

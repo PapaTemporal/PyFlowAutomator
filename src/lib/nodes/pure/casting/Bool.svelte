@@ -11,15 +11,14 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     export let data: NodePropsExt["data"];
 
     beforeUpdate(() => {
-        if (!data.args) data.args = [null, null];
-        if (!data.function) data.function = "operator.and_";
+        if (!data.args) data.args = [null];
+        if (!data.function) data.function = "builtins.bool";
     });
 </script>
 
 <div id="node">
-    <Handle id="0" type="target" position={Position.Left} style="top: 30%" />
-    <Handle id="1" type="target" position={Position.Left} style="top: 70%" />
-    <span>AND</span>
+    <Handle id="0" type="target" position={Position.Left} style="top: 50%" />
+    <span>TO BOOL</span>
     <Handle
         id="__ignore__"
         type="source"

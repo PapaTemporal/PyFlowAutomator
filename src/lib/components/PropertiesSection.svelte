@@ -28,7 +28,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         }}
     />
     <div class="panel">
-        <SaveSection {nodes} {edges} {variables} />
+        <SaveSection {nodes} {edges} {variables} {nodeList} />
         <VariablesSection {nodes} {edges} {variables} />
         <NodesSection {nodeList} />
     </div>

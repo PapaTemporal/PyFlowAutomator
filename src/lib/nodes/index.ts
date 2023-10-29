@@ -53,6 +53,16 @@ import IRSHIFT from './pure/in-place/IRShift.svelte';
 import ISUBTRACT from './pure/in-place/ISub.svelte';
 import IDIVIDE from './pure/in-place/ITrueDiv.svelte';
 import IXOR from './pure/in-place/IXOR_.svelte';
+// import custom functions
+import GET_VARIABLE from './custom/GetVariable.svelte';
+import SET_VARIABLE from './custom/SetVariable.svelte';
+import START from './custom/Start.svelte';
+// import executable functions
+import IF from './exec/Branch.svelte';
+import FOR from './exec/ForEach.svelte';
+import HTTP_GET from './exec/HttpGet.svelte';
+import JSON_PATH from './exec/JsonExtract.svelte';
+import PRINT from './exec/Print.svelte';
 
 export {
     // comparison functions
@@ -109,6 +119,16 @@ export {
     ISUBTRACT,
     IDIVIDE,
     IXOR,
+    // custom functions
+    GET_VARIABLE,
+    // executable functions
+    IF,
+    FOR,
+    HTTP_GET,
+    JSON_PATH,
+    PRINT,
+    SET_VARIABLE,
+    START,
 }
 
 
