@@ -1,0 +1,3 @@
+change the way of displaying draggable nodes in the properties panel to make room for all nodes
+add all the built-in python functions to the list of available functions
+make a parent svelte component for pure functions so I don't have to repeat the code for each function

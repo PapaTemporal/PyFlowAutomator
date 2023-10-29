@@ -11,20 +11,14 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     export let data: NodePropsExt["data"];
 
     beforeUpdate(() => {
-        if (!data.args) data.args = [false, false];
-        if (!data.function) data.function = "operator.or_";
+        if (!data.args) data.args = [null];
+        if (!data.function) data.function = "operator.index";
     });
 </script>
 
-<!-- TODO: add a way to disable the input when the input is connected -->
 <div id="node">
-    <Handle id="0" type="target" position={Position.Left} style="top: 30%" />
-    <Handle id="1" type="target" position={Position.Left} style="top: 70%" />
-    <div id="inputs">
-        <input bind:checked={data.args[0]} class="nodrag" type="checkbox" />
-        <input bind:checked={data.args[1]} class="nodrag" type="checkbox" />
-    </div>
-    <span>OR</span>
+    <Handle id="0" type="target" position={Position.Left} style="top: 50%" />
+    <span>INDEX</span>
     <Handle
         id="__ignore__"
         type="source"
@@ -36,7 +30,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 <style>
     #node {
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
         height: 2rem;
         width: 4rem;
@@ -48,16 +42,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     }
     #node span {
         flex: 0 1 auto;
-        margin: auto 12px;
-    }
-    #inputs {
-        width: 15px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    #inputs input {
-        height: 8px;
+        margin: auto 10px;
     }
 </style>

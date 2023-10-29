@@ -16,25 +16,10 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     });
 </script>
 
-<!-- TODO: add a way to disable the input when the input is connected -->
 <div id="node">
     <Handle id="0" type="target" position={Position.Left} style="top: 30%" />
     <Handle id="1" type="target" position={Position.Left} style="top: 70%" />
-    <div id="inputs">
-        <input
-            class="nodrag"
-            type="text"
-            bind:value={data.args[0]}
-            on:keydown={(e) => e.stopPropagation() && e.preventDefault()}
-        />
-        <input
-            class="nodrag"
-            type="text"
-            bind:value={data.args[1]}
-            on:keydown={(e) => e.stopPropagation() && e.preventDefault()}
-        />
-    </div>
-    <span>IN</span>
+    <span>CONTAINS</span>
     <Handle
         id="__ignore__"
         type="source"
@@ -46,10 +31,10 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 <style>
     #node {
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
-        height: 2.5rem;
-        width: 8rem;
+        height: 2rem;
+        width: 4rem;
         border: 1px solid black;
         border-radius: 5px;
         background-color: white;
@@ -59,26 +44,5 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     #node span {
         flex: 0 1 auto;
         margin: auto 10px;
-    }
-    #inputs {
-        flex: 0 1 auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 2px;
-        padding-left: 5px;
-    }
-    #inputs input {
-        font-size: 7px;
-        height: 8px;
-        width: 5rem;
-    }
-    #outputs {
-        flex: 0 1 auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-right: 5px;
     }
 </style>
