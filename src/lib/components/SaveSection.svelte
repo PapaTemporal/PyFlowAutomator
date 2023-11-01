@@ -5,12 +5,16 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import { writable, type Writable } from "svelte/store";
     import { createEventDispatcher } from "svelte";
     import type { Node, Edge } from "@xyflow/svelte";
+    import Drawer from "./Drawer.svelte";
 
     import {
         sample_nodes,
         sample_edges,
         sample_variables,
     } from "$lib/sample/logic_flow";
+    import Play from "$lib/icons/Play.svelte";
+    import Stop from "$lib/icons/Stop.svelte";
+    import Clear from "$lib/icons/Clear.svelte";
 
     import type { Variable } from "$lib/types";
 
@@ -20,11 +24,14 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     export let nodeList: string[] = [];
 
     $: currentFlow = {
-        start_id: $edges.find((edge) => edge.source == "start")?.target,
         nodes: $nodes,
         edges: $edges,
         variables: $variables,
     };
+
+    let ws: WebSocket;
+    let open = false;
+    let responses = writable<string[]>([]);
 
     const dispatch = createEventDispatcher();
 
@@ -88,16 +95,89 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         edges.set([]);
         variables.set({});
     }
+
+    function run() {
+        dispatch("run", currentFlow);
+    }
+
+    function runLive(e: MouseEvent) {
+        open = true;
+        if (ws === undefined || ws.readyState !== WebSocket.OPEN) {
+            ws = new WebSocket("ws://localhost:8000/ws/run");
+            ws.onmessage = function (event) {
+                responses.update((responses) => [event.data, ...responses]);
+            };
+        }
+        e.preventDefault();
+    }
+
+    function closeConnection(e: MouseEvent) {
+        open = false;
+        if (ws === undefined || ws.readyState !== WebSocket.OPEN) {
+            return;
+        }
+        ws.close();
+        e.preventDefault();
+    }
+
+    function sendStartMessage(e: MouseEvent) {
+        if (ws === undefined || ws.readyState !== WebSocket.OPEN) {
+            return;
+        }
+        responses.set([]);
+        ws.send(JSON.stringify(currentFlow));
+        e.preventDefault();
+    }
+
+    function sendStopMessage(e: MouseEvent) {
+        if (ws === undefined || ws.readyState !== WebSocket.OPEN) {
+            return;
+        }
+        console.log("stop");
+        ws.send(JSON.stringify({ stop: true }));
+        e.preventDefault();
+    }
 </script>
 
 <div class="header">File</div>
 <div class="body">
+    <button on:click={run}>run</button>
+    <button on:click={runLive}>run live</button>
     <button on:click={loadSample}>load sample</button>
-    <button on:click={loadAll}>load all</button>
+    <button on:click={loadAll}>load all nodes</button>
     <button on:click={loadFromClipboard}>load clipboard</button>
     <button on:click={clearFlow}>clear</button>
     <button on:click={copyToClipboard}>copy</button>
 </div>
+<Drawer bind:open placement="bottom" onClickAway={closeConnection} size="50%">
+    <div class="controls">
+        <Play
+            style="display: flex; justify-content: center; align-items: center; cursor: pointer; border: unset; background-color: unset;"
+            color="green"
+            onClick={sendStartMessage}
+        />
+        <Stop
+            style="display: flex; justify-content: center; align-items: center; cursor: pointer; border: unset; background-color: unset;"
+            color="red"
+            onClick={sendStopMessage}
+        />
+        <Clear
+            style="display: flex; justify-content: center; align-items: center; cursor: pointer; border: unset; background-color: unset;"
+            color="white"
+            onClick={() => responses.set([])}
+        />
+        <h1>Flow Results</h1>
+    </div>
+    <article class="data">
+        {#each $responses as response}
+            <p
+                style="border: 3px solid; padding: 10px; border-radius: 5px; margin: unset;"
+            >
+                {response}
+            </p>
+        {/each}
+    </article>
+</Drawer>
 
 <style>
     .header {
@@ -114,5 +194,20 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         display: flex;
         flex-direction: column;
         overflow: scroll;
+    }
+    .controls {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 8px;
+    }
+    .data {
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        overflow: scroll;
+        margin: 0 auto;
+        max-width: 1920px;
+        gap: 10px;
     }
 </style>

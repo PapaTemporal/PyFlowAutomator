@@ -14,7 +14,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         if (!data.kwargs) data.kwargs = {};
         if (!data.kwargs.variable_name) data.kwargs.variable_name = null;
         if (!data.kwargs.value) data.kwargs.value = null;
-        if (!data.function) data.function = "custom.set_variable";
+        if (!data.function) data.function = "set_variable";
     });
 </script>
 

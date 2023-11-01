@@ -13,7 +13,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     beforeUpdate(() => {
         if (!data.kwargs) data.kwargs = {};
         if (!data.kwargs.expression) data.kwargs.expression = "";
-        if (!data.function) data.function = "custom.extract_json";
+        if (!data.function) data.function = "extract_json";
     });
 </script>
 

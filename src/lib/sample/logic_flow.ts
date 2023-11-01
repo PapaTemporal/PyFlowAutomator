@@ -44,7 +44,7 @@ export const sample_nodes: NodeExt[] = [
         "type": "JSON_PATH",
         "data": {
             "kwargs": { "expression": "$.results" },
-            "function": "custom.extract_json",
+            "function": "extract_json",
         },
         "position": { "x": 884.5, "y": 258.25 },
         "positionAbsolute": { "x": 884.5, "y": 258.25 },
@@ -58,7 +58,7 @@ export const sample_nodes: NodeExt[] = [
         "type": "FOR",
         "data": {
             "kwargs": { "next_function": "72374" },
-            "function": "custom.for_each",
+            "function": "for_each",
         },
         "position": { "x": 1097, "y": 257.75 },
         "positionAbsolute": { "x": 1097, "y": 257.75 },
@@ -72,7 +72,7 @@ export const sample_nodes: NodeExt[] = [
         "type": "JSON_PATH",
         "data": {
             "kwargs": { "expression": "$.name" },
-            "function": "custom.extract_json",
+            "function": "extract_json",
         },
         "position": { "x": 1253.5, "y": 257.75 },
         "positionAbsolute": { "x": 1253.5, "y": 257.75 },
@@ -86,7 +86,7 @@ export const sample_nodes: NodeExt[] = [
         "type": "IF",
         "data": {
             "kwargs": { "true": null, "false": null },
-            "function": "custom.branch",
+            "function": "branch",
         },
         "position": { "x": 1670, "y": 281.25 },
         "positionAbsolute": { "x": 1670, "y": 281.25 },
@@ -100,7 +100,7 @@ export const sample_nodes: NodeExt[] = [
         "type": "SET_VARIABLE",
         "data": {
             "kwargs": { "variable_name": "name", "value": null },
-            "function": "custom.set_variable",
+            "function": "set_variable",
         },
         "position": { "x": 1457, "y": 258.25 },
         "positionAbsolute": { "x": 1457, "y": 258.25 },

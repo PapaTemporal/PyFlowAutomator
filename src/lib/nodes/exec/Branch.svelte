@@ -14,7 +14,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         if (!data.kwargs) data.kwargs = {};
         if (!data.kwargs.true) data.kwargs.true = null;
         if (!data.kwargs.false) data.kwargs.false = null;
-        if (!data.function) data.function = "custom.branch";
+        if (!data.function) data.function = "branch";
     });
 </script>
 

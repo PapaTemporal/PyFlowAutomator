@@ -5,6 +5,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import { writable, type Writable } from "svelte/store";
     import type { Node, Edge } from "@xyflow/svelte";
     import type { Variable } from "$lib/types";
+    import { createEventDispatcher } from "svelte";
 
     import NodesSection from "./NodesSection.svelte";
     import VariablesSection from "./VariablesSection.svelte";
@@ -17,6 +18,8 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     export let nodeList: string[] = [];
 
     let propertiesOpen = false;
+
+    const dispatch = createEventDispatcher();
 </script>
 
 {#if propertiesOpen}
@@ -28,7 +31,13 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         }}
     />
     <div class="panel">
-        <SaveSection {nodes} {edges} {variables} {nodeList} />
+        <SaveSection
+            {nodes}
+            {edges}
+            {variables}
+            {nodeList}
+            on:runLive={() => dispatch("openLive")}
+        />
         <VariablesSection {nodes} {edges} {variables} />
         <NodesSection {nodeList} />
     </div>

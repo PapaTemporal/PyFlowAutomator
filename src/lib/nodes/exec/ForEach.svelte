@@ -13,7 +13,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     beforeUpdate(() => {
         if (!data.kwargs) data.kwargs = {};
         if (!data.kwargs.next_function) data.kwargs.next_function = null;
-        if (!data.function) data.function = "custom.for_each";
+        if (!data.function) data.function = "for_each";
     });
 </script>
 
