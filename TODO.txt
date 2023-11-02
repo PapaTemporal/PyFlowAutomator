@@ -5,6 +5,5 @@ bring back the live preview when running the flow but in a better way
 add an outliner that shows all the nodes in the flow with their ids
 add a way to select a node in the outliner and have it selected in the flow
 add a way to select a node in the flow and have it selected in the outliner
-make the variables view look better
 add a right click menu for adding nodes
 remove the nodes section in the My Flow sidebar

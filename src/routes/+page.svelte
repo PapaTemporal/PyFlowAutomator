@@ -67,25 +67,88 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         const varName = e.dataTransfer?.getData("varName");
         const varValue = e.dataTransfer?.getData("varValue");
 
-        if (nodeType == "GET_VARIABLE") {
-            data = { kwargs: { variable_name: varName } };
+        let contextMenu: HTMLDivElement | null = null;
+
+        if (varName) {
+            // Create a new context menu
+            contextMenu = document.createElement("div");
+            contextMenu.style.position = "absolute";
+            contextMenu.style.display = "flex";
+            contextMenu.style.flexDirection = "column";
+            contextMenu.style.alignItems = "center";
+            contextMenu.style.justifyContent = "center";
+            contextMenu.style.backgroundColor = "#333";
+            contextMenu.style.color = "white";
+            contextMenu.style.padding = "5px";
+            contextMenu.style.borderRadius = "3px";
+            contextMenu.style.zIndex = "1000";
+            contextMenu.style.cursor = "pointer";
+            contextMenu.style.userSelect = "none";
+            contextMenu.style.fontFamily = "Arial, Helvetica, sans-serif";
+            contextMenu.style.fontSize = "14px";
+            contextMenu.style.gap = "5px";
+            contextMenu.style.top = `${e.clientY}px`;
+            contextMenu.style.left = `${e.clientX}px`;
+
+            // Add "get" and "set" options to the context menu
+            const getOption = document.createElement("button");
+            getOption.textContent = "GET";
+            getOption.addEventListener("click", () => {
+                nodeType = "GET_VARIABLE";
+                createNode();
+            });
+            contextMenu.appendChild(getOption);
+
+            const setOption = document.createElement("button");
+            setOption.textContent = "SET";
+            setOption.addEventListener("click", () => {
+                nodeType = "SET_VARIABLE";
+                createNode();
+            });
+            contextMenu.appendChild(setOption);
+
+            document.body.appendChild(contextMenu);
+
+            window.addEventListener("click", onClickAway);
+        } else {
+            createNode();
         }
 
-        if (nodeType == "SET_VARIABLE") {
-            data = { kwargs: { variable_name: varName, value: varValue } };
+        function onClickAway() {
+            if (contextMenu) {
+                document.body.removeChild(contextMenu);
+                contextMenu = null;
+                window.removeEventListener("click", onClickAway);
+            }
         }
 
-        const tmpNode = {
-            id: Math.trunc(Math.random() * 100000).toString(),
-            type: nodeType?.toUpperCase(),
-            data: data,
-            position: {
-                x: (e.clientX - rect.left) / scale,
-                y: (e.clientY - rect.top) / scale,
-            },
-        };
+        function createNode() {
+            if (nodeType == "GET_VARIABLE") {
+                data = { kwargs: { variable_name: varName } };
+            }
 
-        $nodes = [...$nodes, tmpNode];
+            if (nodeType == "SET_VARIABLE") {
+                data = { kwargs: { variable_name: varName, value: varValue } };
+            }
+
+            const tmpNode = {
+                id: Math.trunc(Math.random() * 100000).toString(),
+                type: nodeType?.toUpperCase(),
+                data: data,
+                position: {
+                    x: (e.clientX - rect.left) / scale,
+                    y: (e.clientY - rect.top) / scale,
+                },
+            };
+
+            $nodes = [...$nodes, tmpNode];
+
+            if (contextMenu) {
+                document.body.removeChild(contextMenu);
+                contextMenu = null;
+                window.removeEventListener("click", onClickAway);
+            }
+        }
     }
 
     let configOpen = writable(false);

@@ -10,11 +10,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
     import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 
-    export let duration = 0.2;
-    export let size: string = "500px";
-
-    $: style = `--duration: ${duration}s; --size: ${size};`;
-
     const id: Writable<string> = getContext("id");
     const name: Writable<string> = getContext("name");
     const nodes: Writable<NodeExt[]> = getContext("nodes");
@@ -106,7 +101,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     }
 </script>
 
-<aside class="panel" class:open {style}>
+<aside class="panel" class:open>
     {#if open}
         <div class="header">
             <Bars
@@ -125,7 +120,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 <style>
     #monaco-editor-wrapper {
         width: 100%;
-        height: calc(100% - 30px - 25px);
+        height: calc(100% - 35px);
         overflow: hidden;
     }
     .header {
@@ -145,11 +140,11 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         height: 100%;
         background: rgba(0, 0, 0, 0.9);
         z-index: 3;
-        transition: width var(--duration) ease;
+        transition: width 0.2 ease;
         overflow: auto;
     }
 
     .panel.open {
-        width: var(--size);
+        width: 700px;
     }
 </style>

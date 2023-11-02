@@ -9,11 +9,11 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import VariablesSection from "./VariablesSection.svelte";
 
     export let duration = 0.2;
-    export let size: string = "350px";
+    export let size: string = "250px";
 
     const myFlowOpen: Writable<boolean> = getContext("myFlowOpen");
 
-    $: style = `--duration: ${duration}s; --size: ${size};`;
+    $: style = `--duration: ${duration}s; --size: ${size}; flex: 0 0 auto;`;
     $: open = $myFlowOpen;
 </script>
 
