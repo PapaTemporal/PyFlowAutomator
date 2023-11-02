@@ -51,7 +51,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
             e.stopPropagation();
             e.preventDefault();
             data.kwargs.next_function = e.detail.connection.target;
-            console.log(data);
         }}
     />
     <Handle

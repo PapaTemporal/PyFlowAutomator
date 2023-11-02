@@ -2,14 +2,14 @@
 See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
 <script lang="ts">
-    import { writable, type Writable } from "svelte/store";
-    import type { Node, Edge } from "@xyflow/svelte";
-    import type { Variable } from "$lib/types";
-    import type { ChangeEventHandler } from "svelte/elements";
+    import type { NodeExt, Variable } from "$lib/types";
+    import type { Edge } from "@xyflow/svelte";
+    import { getContext } from "svelte";
+    import type { Writable } from "svelte/store";
 
-    export let nodes: Writable<Node[]> = writable([]);
-    export let edges: Writable<Edge[]> = writable([]);
-    export let variables: Writable<Variable> = writable({});
+    const nodes: Writable<NodeExt[]> = getContext("nodes");
+    const edges: Writable<Edge[]> = getContext("edges");
+    const variables: Writable<Variable> = getContext("variables");
 
     let varName: string = "";
 
@@ -65,53 +65,66 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     }
 </script>
 
-<div class="header">Variables</div>
-<div class="body" style="max-height: 200px;">
-    <div class="var-form">
-        <input
-            class="var-input"
-            type="text"
-            placeholder="variable name"
-            bind:value={varName}
-        />
-        <button class="var-save" on:click={addVariable}>save</button>
-    </div>
-    {#each Object.entries($variables) as [name, value]}
-        <div class="var-section">
-            <div class="var">
-                <span>{name}</span>
-                <button
-                    {name}
-                    draggable="true"
-                    on:dragstart={(e) =>
-                        onDragStart(e, name, value, "GetVariable")}
-                >
-                    get
-                </button>
-                <button
-                    {name}
-                    draggable="true"
-                    on:dragstart={(e) =>
-                        onDragStart(e, name, value, "SetVariable")}
-                >
-                    set
-                </button>
-                <button on:click={() => onDeleteVariable(name)}> del </button>
-            </div>
-            <div class="var-default-input">
-                <input
-                    class="var-input"
-                    type="text"
-                    placeholder="default value"
-                    {value}
-                    on:change={(e) => onUpdateVariable(e, name)}
-                />
-            </div>
+<div class="section">
+    <div class="header">Variables</div>
+    <div class="body">
+        <div class="var-form">
+            <input
+                class="var-input"
+                type="text"
+                placeholder="variable name"
+                bind:value={varName}
+            />
+            <button class="var-save" on:click={addVariable}>save</button>
         </div>
-    {/each}
+        {#each Object.entries($variables) as [name, value]}
+            <div class="var-section">
+                <div class="var">
+                    <span>{name}</span>
+                    <button
+                        {name}
+                        draggable="true"
+                        on:dragstart={(e) =>
+                            onDragStart(e, name, value, "GET_VARIABLE")}
+                    >
+                        get
+                    </button>
+                    <button
+                        {name}
+                        draggable="true"
+                        on:dragstart={(e) =>
+                            onDragStart(e, name, value, "SET_VARIABLE")}
+                    >
+                        set
+                    </button>
+                    <button on:click={() => onDeleteVariable(name)}>
+                        del
+                    </button>
+                </div>
+                <div class="var-default-input">
+                    <input
+                        class="var-input"
+                        type="text"
+                        placeholder="default value"
+                        {value}
+                        on:change={(e) => onUpdateVariable(e, name)}
+                    />
+                </div>
+            </div>
+        {/each}
+    </div>
 </div>
 
 <style>
+    .section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(82, 82, 82);
+        color: white;
+        overflow: hidden;
+        padding: 5px;
+    }
     .header {
         display: flex;
         justify-content: center;
@@ -120,14 +133,15 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         font-size: 14px;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background-color: black;
+        color: white;
     }
     .body {
-        min-height: 100px;
-        max-height: 300px;
         padding: 8px;
         display: flex;
         flex-direction: column;
         overflow: scroll;
+        background-color: rgb(124, 124, 124);
+        flex: auto;
     }
     .var-form {
         display: flex;

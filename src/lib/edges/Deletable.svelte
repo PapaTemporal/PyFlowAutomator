@@ -26,7 +26,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     const onEdgeClick = (e: MouseEvent, id: any) => {
         e.stopPropagation();
         e.preventDefault();
-        console.log("remove", id);
     };
 </script>
 
