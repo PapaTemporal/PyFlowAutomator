@@ -42,3 +42,14 @@ export interface CurrentFlow {
     edges: Writable<Edge[]>;
     variables: Writable<Variable>;
 }
+
+export interface PureConfig {
+    name: string;
+    label: string;
+    args: (null | number | string)[];
+    function: string;
+}
+
+export interface PureDictionary {
+    [key: string]: Omit<PureConfig, 'name'>;
+}

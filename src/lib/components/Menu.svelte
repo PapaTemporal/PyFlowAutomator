@@ -17,9 +17,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         isOpen.set(false);
         action(e as MouseEvent);
     }
-    $: {
-        console.log($isOpen);
-    }
 </script>
 
 <ul

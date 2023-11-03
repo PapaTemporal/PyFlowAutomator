@@ -27,8 +27,11 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import FlowConfigSidebar from "$lib/components/FlowConfigSidebar.svelte";
     import MyFlowSidebar from "$lib/components/MyFlowSidebar.svelte";
     import LiveRunBottonbar from "$lib/components/LiveRunBottonbar.svelte";
+    import { pureNodes } from "$lib/constants";
     // local constants
-    const unlistedNodes = ["GET_VARIABLE", "SET_VARIABLE"];
+    const unlistedNodes = ["GET_VARIABLE", "SET_VARIABLE", "PURE"];
+
+    const nodeTypes: NodeTypesExt = operator_nodes;
 
     const id: Writable<string> = writable("1234567890");
     const name: Writable<string> = writable("Flow1234567890");
@@ -36,7 +39,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     const edges: Writable<Edge[]> = writable([]);
     const variables: Writable<Variable> = writable({});
     const nodeList: Writable<string[]> = writable(
-        Object.keys(operator_nodes).filter(
+        [...Object.keys(operator_nodes), ...Object.keys(pureNodes)].filter(
             (key) => !unlistedNodes.includes(key)
         )
     );
@@ -47,10 +50,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     setContext("edges", edges);
     setContext("variables", variables);
     setContext("nodeList", nodeList);
-
-    const nodeTypes: NodeTypesExt = {
-        ...operator_nodes,
-    };
 
     const edgeTypes: EdgeTypes = {
         Deletable,
@@ -132,9 +131,18 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                 data = { kwargs: { variable_name: varName, value: varValue } };
             }
 
+            let key = (nodeType as string)
+                .replace(/&lt;/g, "<")
+                .replace(/&gt;/g, ">");
+            if (pureNodes.hasOwnProperty(key)) {
+                data = pureNodes[key];
+                console.log(data);
+                nodeType = "PURE";
+            }
+
             const tmpNode = {
                 id: Math.trunc(Math.random() * 100000).toString(),
-                type: nodeType?.toUpperCase(),
+                type: nodeType,
                 data: data,
                 position: {
                     x: (e.clientX - rect.left) / scale,
