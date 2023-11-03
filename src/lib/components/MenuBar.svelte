@@ -13,6 +13,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         sample_edges,
         sample_variables,
     } from "$lib/sample/logic_flow";
+    import MenuItem from "./MenuItem.svelte";
 
     const id: Writable<string> = getContext("id");
     const name: Writable<string> = getContext("name");
@@ -22,9 +23,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     const variables: Writable<Variable> = getContext("variables");
     const configOpen: Writable<boolean> = getContext("configOpen");
     const myFlowOpen: Writable<boolean> = getContext("myFlowOpen");
-
-    let ws: WebSocket;
-    let flowResults: Writable<string[]> = writable([]);
+    const liveRunOpen: Writable<boolean> = getContext("liveRunOpen");
 
     const dispatch = createEventDispatcher();
 
@@ -234,6 +233,16 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
             id: 1,
             label: "Run Flow",
             action: async (e: MouseEvent) => {
+                if ($nodes.length === 0) {
+                    alert("Flow is empty");
+                    return;
+                }
+                if (
+                    $nodes.filter((node) => node.type === "START").length === 0
+                ) {
+                    alert("Flow does not have a START node");
+                    return;
+                }
                 await fetch("http://localhost:8000/api/run", {
                     method: "POST",
                     mode: "cors",
@@ -258,71 +267,8 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         },
         {
             id: 2,
-            label: "Connect Live Flow",
-            action: (e: MouseEvent) => {
-                if (ws === undefined || ws.readyState !== WebSocket.OPEN) {
-                    ws = new WebSocket("ws://localhost:8000/ws/run");
-                    ws.onmessage = function (event) {
-                        flowResults.update((responses) => [
-                            event.data,
-                            ...responses,
-                        ]);
-                    };
-                }
-                if (e) e.preventDefault();
-            },
-        },
-        {
-            id: 3,
-            label: "Run Live Flow",
-            action: (e: MouseEvent) => {
-                if (ws === undefined || ws.readyState !== WebSocket.OPEN) {
-                    ws = new WebSocket("ws://localhost:8000/ws/run");
-                    ws.onmessage = function (event) {
-                        flowResults.update((responses) => [
-                            event.data,
-                            ...responses,
-                        ]);
-                    };
-                }
-                if (e) e.preventDefault();
-            },
-        },
-        {
-            id: 4,
-            label: "Disconnect Live Flow",
-            action: (e: MouseEvent) => {
-                if (ws === undefined || ws.readyState !== WebSocket.OPEN) {
-                    return;
-                }
-                flowResults.set([]);
-                ws.send(
-                    JSON.stringify({
-                        id: $id,
-                        name: $name,
-                        nodes: $nodes,
-                        edges: $edges,
-                        variables: $variables,
-                    })
-                );
-                if (e) e.preventDefault();
-            },
-        },
-        {
-            id: 5,
-            label: "Stop Live Flow",
-            action: (e: MouseEvent) => {
-                if (ws === undefined || ws.readyState !== WebSocket.OPEN) {
-                    return;
-                }
-                ws.send(JSON.stringify({ stop: true }));
-                if (e) e.preventDefault();
-            },
-        },
-        {
-            id: 6,
-            label: "Clear Flow Results",
-            action: (e: MouseEvent) => flowResults.set([]),
+            label: "Open Live",
+            action: (e: MouseEvent) => liveRunOpen.set(!$liveRunOpen),
         },
     ]);
 
@@ -342,28 +288,32 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 </script>
 
 <div class="menu-bar">
-    <FileMenu
-        bind:menuItems={flowMenuItems}
-        bind:isOpen={isFlowMenuOpen}
-        closeOthers={handleCloseOthers}
-        label="File"
-    />
-    <FileMenu
-        bind:menuItems={runMenuItems}
-        bind:isOpen={isRunMenuOpen}
-        closeOthers={handleCloseOthers}
-        label="Run"
-    />
-    <FileMenu
-        closeOthers={handleCloseOthers}
-        onClick={() => myFlowOpen.set(!$myFlowOpen)}
-        label="Flow"
-    />
-    <FileMenu
-        closeOthers={handleCloseOthers}
-        onClick={() => configOpen.set(!$configOpen)}
-        label="Debug"
-    />
+    <div class="menus">
+        <FileMenu
+            bind:menuItems={flowMenuItems}
+            bind:isOpen={isFlowMenuOpen}
+            closeOthers={handleCloseOthers}
+            label="File"
+        />
+        <FileMenu
+            bind:menuItems={runMenuItems}
+            bind:isOpen={isRunMenuOpen}
+            closeOthers={handleCloseOthers}
+            label="Run"
+        />
+        <FileMenu
+            closeOthers={handleCloseOthers}
+            onClick={() => myFlowOpen.set(!$myFlowOpen)}
+            label="Flow"
+        />
+        <FileMenu
+            closeOthers={handleCloseOthers}
+            onClick={() => configOpen.set(!$configOpen)}
+            label="Debug"
+        />
+    </div>
+    <span>{$name}</span>
+    <div style="flex: 0 1 auto; min-width: 100px;" />
 </div>
 
 <style>
@@ -373,7 +323,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         left: 0;
         right: 0;
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
         background-color: #333;
         color: white;
@@ -381,5 +331,11 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         padding: 0 10px;
         font-family: Arial, Helvetica, sans-serif;
         font-size: small;
+    }
+    .menus {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 10px;
     }
 </style>

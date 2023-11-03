@@ -45,7 +45,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         list-style-type: none;
         display: none;
         flex-direction: column;
-        z-index: 1;
+        z-index: 4;
         background-color: #333;
         padding: 0;
         margin: 0;

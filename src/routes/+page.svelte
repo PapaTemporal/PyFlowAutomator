@@ -13,7 +13,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         type Edge,
     } from "@xyflow/svelte";
     import { writable, type Writable } from "svelte/store";
-    import { setContext } from "svelte";
+    import { onMount, setContext } from "svelte";
     import "@xyflow/svelte/dist/style.css";
     // local types
     import type { NodeTypesExt, NodeExt, Variable } from "$lib/types";
@@ -26,6 +26,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import StatusBar from "$lib/components/StatusBar.svelte";
     import FlowConfigSidebar from "$lib/components/FlowConfigSidebar.svelte";
     import MyFlowSidebar from "$lib/components/MyFlowSidebar.svelte";
+    import LiveRunBottonbar from "$lib/components/LiveRunBottonbar.svelte";
     // local constants
     const unlistedNodes = ["GET_VARIABLE", "SET_VARIABLE"];
 
@@ -153,29 +154,34 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
     let configOpen = writable(false);
     let myFlowOpen = writable(false);
+    let liveRunOpen = writable(false);
 
     setContext("configOpen", configOpen);
     setContext("myFlowOpen", myFlowOpen);
+    setContext("liveRunOpen", liveRunOpen);
 </script>
 
 <div class="main">
     <MenuBar />
     <div class="body">
         <MyFlowSidebar />
-        <SvelteFlow
-            id={$id}
-            {nodes}
-            {edges}
-            {nodeTypes}
-            {edgeTypes}
-            fitView
-            on:dragover={(e) => e.preventDefault()}
-            on:drop={onDrop}
-        >
-            <Controls />
-            <Background variant={BackgroundVariant.Lines} />
-            <MiniMap />
-        </SvelteFlow>
+        <div class="main-center">
+            <SvelteFlow
+                id={$id}
+                {nodes}
+                {edges}
+                {nodeTypes}
+                {edgeTypes}
+                fitView
+                on:dragover={(e) => e.preventDefault()}
+                on:drop={onDrop}
+            >
+                <Controls />
+                <Background variant={BackgroundVariant.Lines} />
+                <MiniMap />
+            </SvelteFlow>
+            <LiveRunBottonbar />
+        </div>
         <FlowConfigSidebar />
     </div>
     <StatusBar />
@@ -196,5 +202,13 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         right: 0;
         bottom: 25px;
         display: flex;
+    }
+    .main-center {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 </style>

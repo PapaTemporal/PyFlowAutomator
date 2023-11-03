@@ -1,3 +1,6 @@
+// This file is licensed under the CC BY-NC-SA 4.0 license.
+// See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details.
+
 import type { Edge } from "@xyflow/svelte";
 import type { NodeExt, Variable } from "$lib/types";
 

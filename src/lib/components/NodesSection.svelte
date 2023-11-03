@@ -13,7 +13,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     }
 </script>
 
-<div class="section">
+<div style={$$props.style} class="section">
     <div class="header">Nodes</div>
     <div class="body">
         {#each $nodeList as node}

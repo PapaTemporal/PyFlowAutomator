@@ -1,3 +1,6 @@
+// This file is licensed under the CC BY-NC-SA 4.0 license.
+// See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details.
+
 import type { Node, NodeTypes, Edge } from "@xyflow/svelte";
 import type { NodeProps } from "@xyflow/system";
 import type { Writable } from "svelte/store";
