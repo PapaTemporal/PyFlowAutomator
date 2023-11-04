@@ -46,7 +46,9 @@ export interface CurrentFlow {
 export interface PureConfig {
     name: string;
     label: string;
-    args: (null | number | string)[];
+    category: string;
+    args?: (null | number | string)[];
+    kwargs?: { [key: string]: null | number | string };
     function: string;
 }
 

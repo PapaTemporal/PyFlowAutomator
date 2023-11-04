@@ -1,2 +1,1 @@
-change the way of displaying draggable nodes in the properties panel to make room for all nodes
 add all the built-in python functions to the list of available functions

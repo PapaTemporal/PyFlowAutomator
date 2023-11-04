@@ -4,8 +4,12 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 <script lang="ts">
     import { writable } from "svelte/store";
     import type { Writable } from "svelte/store";
-    import { createEventDispatcher, getContext, setContext } from "svelte";
-    import type { MenuItem, NodeExt, Variable } from "$lib/types";
+    import { createEventDispatcher, getContext } from "svelte";
+    import type {
+        MenuItem as MenuItemType,
+        NodeExt,
+        Variable,
+    } from "$lib/types";
     import FileMenu from "./FileMenu.svelte";
     import type { Edge } from "@xyflow/svelte";
     import {
@@ -13,13 +17,12 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         sample_edges,
         sample_variables,
     } from "$lib/sample/logic_flow";
-    import MenuItem from "./MenuItem.svelte";
+    import { nodesList } from "$lib/constants";
 
     const id: Writable<string> = getContext("id");
     const name: Writable<string> = getContext("name");
     const nodes: Writable<NodeExt[]> = getContext("nodes");
     const edges: Writable<Edge[]> = getContext("edges");
-    const nodeList: Writable<string[]> = getContext("nodeList");
     const variables: Writable<Variable> = getContext("variables");
     const configOpen: Writable<boolean> = getContext("configOpen");
     const myFlowOpen: Writable<boolean> = getContext("myFlowOpen");
@@ -27,7 +30,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
     const dispatch = createEventDispatcher();
 
-    let flowMenuItems: Writable<MenuItem[]> = writable([
+    let flowMenuItems: Writable<MenuItemType[]> = writable([
         {
             id: 1,
             label: "New Flow",
@@ -153,10 +156,10 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                 let x = 0;
                 let y = 0;
                 let newNodes = [];
-                for (let i = 0; i < $nodeList.length; i++) {
+                for (let i = 0; i < nodesList.length; i++) {
                     newNodes.push({
                         id: Math.trunc(Math.random() * 100000).toString(),
-                        type: $nodeList[i],
+                        type: nodesList[i],
                         data: {},
                         position: { x: x * nodeWidth, y: y * nodeHeight },
                     });
@@ -228,7 +231,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         },
     ]);
 
-    let runMenuItems: Writable<MenuItem[]> = writable([
+    let runMenuItems: Writable<MenuItemType[]> = writable([
         {
             id: 1,
             label: "Run Flow",

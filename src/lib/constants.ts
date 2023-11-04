@@ -1,328 +1,374 @@
 // This file is licensed under the CC BY-NC-SA 4.0 license.
 // See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details.
 
-import type { PureConfig, PureDictionary } from "./types";
+import type { PureDictionary } from "./types";
 
-function arrayToDictionary(array: PureConfig[]): PureDictionary {
-    const dictionary: PureDictionary = {};
-    for (const item of array) {
-        const { name, ...rest } = item;
-        dictionary[name] = rest;
-    }
-    return dictionary;
-}
+const unlistedNodes = ["GET_VARIABLE", "SET_VARIABLE", "PURE"];
 
-export const comparisonNodes: PureDictionary = arrayToDictionary([
-    {
-        name: "==",
+export const pureNodes: PureDictionary = {
+    "==": {
         label: "==",
+        category: "comparison",
         args: [null, null],
         function: "operator.eq"
     },
-    {
-        name: ">=",
+    ">=": {
         label: ">=",
+        category: "comparison",
         args: [null, null],
         function: "operator.ge"
     },
-    {
-        name: ">",
+    ">": {
         label: ">",
+        category: "comparison",
         args: [null, null],
         function: "operator.gt"
     },
-    {
-        name: "<=",
+    "<=": {
         label: "<=",
+        category: "comparison",
         args: [null, null],
         function: "operator.le"
     },
-    {
-        name: "<",
+    "<": {
         label: "<",
+        category: "comparison",
         args: [null, null],
         function: "operator.lt"
     },
-    {
-        name: "!=",
+    "!=": {
         label: "!=",
+        category: "comparison",
         args: [null, null],
         function: "operator.ne"
     },
-]);
-export const logicalNodes: PureDictionary = arrayToDictionary([
-    {
-        name: "is",
+    "is": {
         label: "is",
+        category: "logical",
         args: [null, null],
         function: "operator.is_"
     },
-    {
-        name: "is_not",
+    "is_not": {
         label: "is not",
+        category: "logical",
         args: [null, null],
         function: "operator.is_not"
     },
-    {
-        name: "not",
+    "not": {
         label: "not",
+        category: "logical",
         args: [null],
         function: "operator.not_"
     },
-    {
-        name: "truth",
+    "truth": {
         label: "truth",
+        category: "logical",
         args: [null],
         function: "operator.truth"
     },
-]);
-export const mathNodes: PureDictionary = arrayToDictionary([
-    {
-        name: "abs",
+    "abs": {
         label: "abs",
+        category: "math",
         args: [null],
         function: "operator.abs"
     },
-    {
-        name: "add",
+    "add": {
         label: "+",
+        category: "math",
         args: [null, null],
         function: "operator.add"
     },
-    {
-        name: "and",
+    "and": {
         label: "and",
+        category: "math",
         args: [null, null],
         function: "operator.and_"
     },
-    {
-        name: "floordiv",
+    "floordiv": {
         label: "//",
+        category: "math",
         args: [null, null],
         function: "operator.floordiv"
     },
-    {
-        name: "index",
+    "index": {
         label: "index",
+        category: "math",
         args: [null],
         function: "operator.index"
     },
-    {
-        name: "inv",
+    "inv": {
         label: "inv",
+        category: "math",
         args: [null],
         function: "operator.inv"
     },
-    {
-        name: "lshift",
+    "lshift": {
         label: "<<",
+        category: "math",
         args: [null, null],
         function: "operator.lshift"
     },
-    {
-        name: "matmul",
+    "matmul": {
         label: "@",
+        category: "math",
         args: [null, null],
         function: "operator.matmul"
     },
-    {
-        name: "mod",
+    "mod": {
         label: "%",
+        category: "math",
         args: [null, null],
         function: "operator.mod"
     },
-    {
-        name: "mul",
+    "mul": {
         label: "*",
+        category: "math",
         args: [null, null],
         function: "operator.mul"
     },
-    {
-        name: "neg",
+    "neg": {
         label: "neg",
+        category: "math",
         args: [null],
         function: "operator.neg"
     },
-    {
-        name: "or",
+    "or": {
         label: "or",
+        category: "math",
         args: [null, null],
         function: "operator.or_"
     },
-    {
-        name: "pos",
+    "pos": {
         label: "pos",
+        category: "math",
         args: [null],
         function: "operator.pos"
     },
-    {
-        name: "pow",
+    "pow": {
         label: "**",
+        category: "math",
         args: [null, null],
         function: "operator.pow"
     },
-    {
-        name: "rshift",
+    "rshift": {
         label: ">>",
+        category: "math",
         args: [null, null],
         function: "operator.rshift"
     },
-    {
-        name: "sub",
+    "sub": {
         label: "-",
+        category: "math",
         args: [null, null],
         function: "operator.sub"
     },
-    {
-        name: "truediv",
+    "truediv": {
         label: "/",
+        category: "math",
         args: [null, null],
         function: "operator.truediv"
     },
-    {
-        name: "xor",
+    "xor": {
         label: "^",
+        category: "math",
         args: [null, null],
         function: "operator.xor"
     },
-]);
-export const sequenceNodes: PureDictionary = arrayToDictionary([
-    {
-        name: "concat",
+    "concat": {
         label: "concat",
+        category: "sequence",
         args: [null, null],
         function: "operator.concat"
     },
-    {
-        name: "contains",
+    "contains": {
         label: "contains",
+        category: "sequence",
         args: [null, null],
         function: "operator.contains"
     },
-    {
-        name: "countOf",
+    "countOf": {
         label: "countOf",
+        category: "sequence",
         args: [null, null],
         function: "operator.countOf"
     },
-    {
-        name: "delitem",
+    "delitem": {
         label: "del a[b]",
+        category: "sequence",
         args: [null, null],
         function: "operator.delitem"
     },
-    {
-        name: "getitem",
+    "getitem": {
         label: "a[b]",
+        category: "sequence",
         args: [null, null],
         function: "operator.getitem"
     },
-    {
-        name: "indexOf",
+    "indexOf": {
         label: "indexOf",
+        category: "sequence",
         args: [null, null],
         function: "operator.indexOf"
     },
-    {
-        name: "setitem",
+    "setitem": {
         label: "a[b]=c",
+        category: "sequence",
         args: [null, null, null],
         function: "operator.setitem"
     },
-]);
-export const inPlaceNodes: PureDictionary = arrayToDictionary([
-    {
-        name: "iadd",
+    "iadd": {
         label: "+=",
+        category: "in-place",
         args: [null, null],
         function: "operator.iadd"
     },
-    {
-        name: "iand",
+    "iand": {
         label: "&=",
+        category: "in-place",
         args: [null, null],
         function: "operator.iand"
     },
-    {
-        name: "iconcat",
+    "iconcat": {
         label: "+=(seq)",
+        category: "in-place",
         args: [null, null],
         function: "operator.iconcat"
     },
-    {
-        name: "ifloordiv",
+    "ifloordiv": {
         label: "//=",
+        category: "in-place",
         args: [null, null],
         function: "operator.ifloordiv"
     },
-    {
-        name: "ilshift",
+    "ilshift": {
         label: "<<=",
+        category: "in-place",
         args: [null, null],
         function: "operator.ilshift"
     },
-    {
-        name: "imatmul",
+    "imatmul": {
         label: "@=",
+        category: "in-place",
         args: [null, null],
         function: "operator.imatmul"
     },
-    {
-        name: "imod",
+    "imod": {
         label: "%=",
+        category: "in-place",
         args: [null, null],
         function: "operator.imod"
     },
-    {
-        name: "imul",
+    "imul": {
         label: "*=",
+        category: "in-place",
         args: [null, null],
         function: "operator.imul"
     },
-    {
-        name: "ior",
+    "ior": {
         label: "|=",
+        category: "in-place",
         args: [null, null],
         function: "operator.ior"
     },
-    {
-        name: "ipow",
+    "ipow": {
         label: "**=",
+        category: "in-place",
         args: [null, null],
         function: "operator.ipow"
     },
-    {
-        name: "irshift",
+    "irshift": {
         label: ">>=",
+        category: "in-place",
         args: [null, null],
         function: "operator.irshift"
     },
-    {
-        name: "isub",
+    "isub": {
         label: "-=",
+        category: "in-place",
         args: [null, null],
         function: "operator.isub"
     },
-    {
-        name: "itruediv",
+    "itruediv": {
         label: "/=",
+        category: "in-place",
         args: [null, null],
         function: "operator.itruediv"
     },
-    {
-        name: "ixor",
+    "ixor": {
         label: "^=",
+        category: "in-place",
         args: [null, null],
         function: "operator.ixor"
     },
-]);
-export const castingNodes: PureDictionary = arrayToDictionary([]);
-
-export const pureNodes: PureDictionary = {
-    ...comparisonNodes,
-    ...logicalNodes,
-    ...mathNodes,
-    ...sequenceNodes,
-    ...inPlaceNodes,
-    ...castingNodes,
 };
+
+export const executableNodes: PureDictionary = {
+    "if": {
+        label: "if",
+        category: "logic",
+        kwargs: { "true": null, "false": null },
+        function: "branch"
+    },
+    "for": {
+        label: "for each",
+        category: "logic",
+        kwargs: { next_function: null },
+        function: "for_each"
+    },
+    "http_get": {
+        label: "http get",
+        category: "requests",
+        args: [null],
+        function: "requests.get"
+    },
+    "json_path": {
+        label: "json path",
+        category: "data",
+        kwargs: { expression: null },
+        function: "extract_json"
+    },
+    "print": {
+        label: "print",
+        category: "builtins",
+        args: [null],
+        function: "builtins.print"
+    },
+}
+
+export const specialNodes: PureDictionary = {
+    "get_variable": {
+        label: "get variable",
+        category: "variables",
+        kwargs: { variable_name: "" },
+        function: "__ignore__"
+    },
+    "set_variable": {
+        label: "set variable",
+        category: "variables",
+        kwargs: { variable_name: null, value: null },
+        function: "set_variable"
+    },
+    "start": {
+        label: "start",
+        category: "flow",
+        function: "__ignore__"
+    },
+}
+
+export const nodesList = Object.fromEntries(
+    Object.entries({ ...pureNodes, ...executableNodes, ...specialNodes }).filter(
+        ([key]) => !unlistedNodes.includes(key)
+    )
+);
+
+export const categories = getCategories({ ...pureNodes, ...executableNodes });
+
+function getCategories(nodes: PureDictionary): string[] {
+    const categories: string[] = [];
+    for (const node of Object.values(nodes)) {
+        if (!categories.includes(node.category)) {
+            categories.push(node.category);
+        }
+    }
+    return categories;
+}

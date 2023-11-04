@@ -2,7 +2,6 @@
 See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
 <script lang="ts">
-    // third-party
     import {
         SvelteFlow,
         Controls,
@@ -15,21 +14,15 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import { writable, type Writable } from "svelte/store";
     import { onMount, setContext } from "svelte";
     import "@xyflow/svelte/dist/style.css";
-    // local types
     import type { NodeTypesExt, NodeExt, Variable } from "$lib/types";
-    // local nodes
     import * as operator_nodes from "$lib/nodes";
-    // local edges
     import Deletable from "$lib/edges/Deletable.svelte";
-    // local components
     import MenuBar from "$lib/components/MenuBar.svelte";
     import StatusBar from "$lib/components/StatusBar.svelte";
     import FlowConfigSidebar from "$lib/components/FlowConfigSidebar.svelte";
     import MyFlowSidebar from "$lib/components/MyFlowSidebar.svelte";
     import LiveRunBottonbar from "$lib/components/LiveRunBottonbar.svelte";
-    import { pureNodes } from "$lib/constants";
-    // local constants
-    const unlistedNodes = ["GET_VARIABLE", "SET_VARIABLE", "PURE"];
+    import { pureNodes, executableNodes, specialNodes } from "$lib/constants";
 
     const nodeTypes: NodeTypesExt = operator_nodes;
 
@@ -38,18 +31,12 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     const nodes: Writable<NodeExt[]> = writable([]);
     const edges: Writable<Edge[]> = writable([]);
     const variables: Writable<Variable> = writable({});
-    const nodeList: Writable<string[]> = writable(
-        [...Object.keys(operator_nodes), ...Object.keys(pureNodes)].filter(
-            (key) => !unlistedNodes.includes(key)
-        )
-    );
 
     setContext("id", id);
     setContext("name", name);
     setContext("nodes", nodes);
     setContext("edges", edges);
     setContext("variables", variables);
-    setContext("nodeList", nodeList);
 
     const edgeTypes: EdgeTypes = {
         Deletable,
@@ -136,8 +123,12 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                 .replace(/&gt;/g, ">");
             if (pureNodes.hasOwnProperty(key)) {
                 data = pureNodes[key];
-                console.log(data);
                 nodeType = "PURE";
+            }
+
+            if ({ ...executableNodes, ...specialNodes }.hasOwnProperty(key)) {
+                data = executableNodes[key];
+                nodeType = nodeType?.toUpperCase() as string;
             }
 
             const tmpNode = {

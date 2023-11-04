@@ -2,24 +2,53 @@
 See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
 <script lang="ts">
-    import { getContext } from "svelte";
-    import type { Writable } from "svelte/store";
+    import { nodesList, categories } from "$lib/constants";
 
-    const nodeList: Writable<string[]> = getContext("nodeList");
-
-    function onDragStart(e: DragEvent) {
+    function onDragStart(e: DragEvent): void {
         const target = e.target as HTMLElement;
         e.dataTransfer?.setData("type", target.innerHTML);
     }
+
+    const groupedNodes: { [category: string]: string[] } = {};
+    for (const key of Object.keys(nodesList)) {
+        const category = nodesList[key].category;
+        if (!groupedNodes[category]) {
+            groupedNodes[category] = [];
+        }
+        groupedNodes[category].push(key);
+    }
+
+    let openCategory: string | null = null;
+    const toggleCategory = (category: string, event: MouseEvent): void => {
+        event.preventDefault();
+        openCategory = openCategory === category ? null : category;
+    };
+
+    let searchTerm: string = "";
 </script>
 
 <div style={$$props.style} class="section">
     <div class="header">Nodes</div>
+    <input bind:value={searchTerm} placeholder="Search..." />
     <div class="body">
-        {#each $nodeList as node}
-            <button class="nodeItem" on:dragstart={onDragStart} draggable="true"
-                >{node}</button
-            >
+        {#each Object.entries(groupedNodes).filter(([category, nodes]) => category.includes(searchTerm) || nodes.some( (node) => node.includes(searchTerm) )) as [category, nodes]}
+            <details open={openCategory === category}>
+                <summary
+                    class="summary"
+                    on:click={(event) => toggleCategory(category, event)}
+                >
+                    {category}
+                </summary>
+                <div class="nodes">
+                    {#each nodes.filter( (node) => node.includes(searchTerm) ) as nodeKey}
+                        <button
+                            class="nodeItem"
+                            on:dragstart={onDragStart}
+                            draggable="true">{nodeKey}</button
+                        >
+                    {/each}
+                </div>
+            </details>
         {/each}
     </div>
 </div>
@@ -45,7 +74,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         color: white;
     }
     .body {
-        padding: 8px;
         display: flex;
         flex-direction: column;
         overflow: scroll;
@@ -53,6 +81,18 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         flex: auto;
     }
     .nodeItem {
-        height: 30px;
+        height: 25px;
+    }
+    .summary {
+        font-size: 14px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: rgb(82, 82, 82);
+        padding: 6px;
+        cursor: pointer;
+        border-bottom: 1px solid rgb(161, 161, 161);
+    }
+    .nodes {
+        display: flex;
+        flex-direction: column;
     }
 </style>
