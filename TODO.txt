@@ -1,1 +1,4 @@
 add all the built-in python functions to the list of available functions
+fix issue where the my flow sidebar and the debug sidebar get squished when both are open
+remove print node since it only prints in the backend console and not to the user
+make the casting nodes into small nodes with a single input and output and label them with the type they cast to

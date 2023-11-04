@@ -12,7 +12,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         type Edge,
     } from "@xyflow/svelte";
     import { writable, type Writable } from "svelte/store";
-    import { onMount, setContext } from "svelte";
+    import { setContext } from "svelte";
     import "@xyflow/svelte/dist/style.css";
     import type { NodeTypesExt, NodeExt, Variable } from "$lib/types";
     import * as operator_nodes from "$lib/nodes";
@@ -49,7 +49,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         const rect = target?.getBoundingClientRect() as DOMRect;
         const scale = rect.width / target?.offsetWidth;
 
-        let data = {};
         let nodeType = e.dataTransfer?.getData("type");
         const varName = e.dataTransfer?.getData("varName");
         const varValue = e.dataTransfer?.getData("varValue");
@@ -110,24 +109,33 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         }
 
         function createNode() {
+            let data = {};
+
             if (nodeType == "GET_VARIABLE") {
-                data = { kwargs: { variable_name: varName } };
+                data = specialNodes[nodeType.toLowerCase()];
+                data = { ...data, kwargs: { variable_name: varName } };
             }
 
             if (nodeType == "SET_VARIABLE") {
-                data = { kwargs: { variable_name: varName, value: varValue } };
+                data = specialNodes[nodeType.toLowerCase()];
+                data = {
+                    ...data,
+                    kwargs: { variable_name: varName, value: varValue },
+                };
             }
 
             let key = (nodeType as string)
                 .replace(/&lt;/g, "<")
                 .replace(/&gt;/g, ">");
             if (pureNodes.hasOwnProperty(key)) {
-                data = pureNodes[key];
+                data = JSON.parse(JSON.stringify(pureNodes[key]));
                 nodeType = "PURE";
             }
 
             if ({ ...executableNodes, ...specialNodes }.hasOwnProperty(key)) {
-                data = executableNodes[key];
+                data = JSON.parse(
+                    JSON.stringify({ ...executableNodes, ...specialNodes }[key])
+                );
                 nodeType = nodeType?.toUpperCase() as string;
             }
 

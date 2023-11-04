@@ -4,15 +4,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 <script lang="ts">
     import { Position } from "@xyflow/system";
     import { Handle } from "@xyflow/svelte";
-
-    import type { NodePropsExt } from "$lib/types";
-    import { beforeUpdate } from "svelte";
-
-    export let data: NodePropsExt["data"];
-
-    beforeUpdate(() => {
-        if (!data.function) data.function = "__ignore__";
-    });
 </script>
 
 <div id="node">

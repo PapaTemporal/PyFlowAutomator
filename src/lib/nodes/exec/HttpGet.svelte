@@ -6,14 +6,8 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import { Handle } from "@xyflow/svelte";
 
     import type { NodePropsExt } from "$lib/types";
-    import { beforeUpdate } from "svelte";
 
     export let data: NodePropsExt["data"];
-
-    beforeUpdate(() => {
-        if (!data.args) data.args = [null];
-        if (!data.function) data.function = "requests.get";
-    });
 </script>
 
 <div id="node">

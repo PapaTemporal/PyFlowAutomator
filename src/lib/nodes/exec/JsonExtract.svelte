@@ -6,15 +6,8 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import { Handle } from "@xyflow/svelte";
 
     import type { NodePropsExt } from "$lib/types";
-    import { beforeUpdate, onMount } from "svelte";
 
     export let data: NodePropsExt["data"];
-
-    beforeUpdate(() => {
-        if (!data.kwargs) data.kwargs = {};
-        if (!data.kwargs.expression) data.kwargs.expression = "";
-        if (!data.function) data.function = "extract_json";
-    });
 </script>
 
 <div id="node">
