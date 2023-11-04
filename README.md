@@ -12,7 +12,8 @@ PyFlowAutomator uses [@xyflow](https://reactflow.dev/) (formerly reactflow) so t
 
 #### running a flow
 
-At the moment, you can use the copy button in the UI to copy the flow data and save it as a json file to run with the PyFlowAutomatorCore engine. Of course there is a roadmap to change all of this to allow you to send it directly to the backend as http/websocket or save and run later as a script.
+With the backend running, the easiest way to run a flow is to open the Live Run window under the Flow menu. Press the start button and the results of each step will show up in the terminal-like view.
+Another way is to copy the the flow to clipboard and put it into a json file and then use the script method of PyFlowAutomatorCore.
 
 ```
 PyFlowAutomatorCore
