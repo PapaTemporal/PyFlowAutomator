@@ -8,6 +8,7 @@ To use the PyFlowAutomator, just run the UI with `npm run dev` or build it for p
 
 PyFlowAutomator uses [@xyflow](https://reactflow.dev/) (formerly reactflow) so the same rules apply with a few modifications.
 
+Note: old view, will update soon
 ![work area image](static/usage.png)
 
 #### running a flow
