@@ -98,7 +98,9 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         </div>
         <div class="terminal" bind:this={terminal}>
             {#each $flowResults as result}
-                <div>{result.replace(/\\u03bcs/g, "µs")}</div>
+                <div>
+                    {result.replace(/\\u03bcs/g, "µs")}
+                </div>
             {/each}
         </div>
     {/if}
@@ -136,8 +138,9 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         color: #00ff00;
         font-family: "Courier New", Courier, monospace;
         padding: 10px;
-        white-space: pre-wrap;
+        overflow-wrap: anywhere;
         overflow: auto;
         height: 100%;
+        width: 100%;
     }
 </style>
