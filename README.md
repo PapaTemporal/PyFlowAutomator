@@ -6,14 +6,20 @@ PyFlowAutomator is a web-based visual scripting UI for the PyFlowAutomatorCore e
 
 To use the PyFlowAutomator, just run the UI with `npm run dev` or build it for production with `npm run build` and run it that way.
 
-PyFlowAutomator uses [@xyflow](https://reactflow.dev/) (formerly reactflow) so the same rules apply with a few modifications.
+PyFlowAutomator uses [@xyflow/svelte](https://svelteflow.dev/) (from the creators of reactflow) so the same rules apply with a few modifications.
 
-Note: old view, will update soon
-![work area image](static/usage.png)
+Creating a flow
+![creating gif](static/Create.gif)
+
+Debugging a flow
+![debugging gif](static/Debug.gif)
 
 #### running a flow
 
 With the backend running, the easiest way to run a flow is to open the Live Run window under the Flow menu. Press the start button and the results of each step will show up in the terminal-like view.
+
+![live running gif](static/LiveRun.gif)
+
 Another way is to copy the the flow to clipboard and put it into a json file and then use the script method of PyFlowAutomatorCore.
 
 ```

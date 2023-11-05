@@ -114,7 +114,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "88179",
-        "type": "OR",
+        "type": "PURE",
         "data": { "args": [false, false], "function": "operator.or_" },
         "position": { "x": 1552, "y": 348.75 },
         "positionAbsolute": { "x": 1552, "y": 348.75 },
@@ -125,7 +125,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "92109",
-        "type": "CONTAINS",
+        "type": "PURE",
         "data": { "args": ["C", null], "function": "operator.contains" },
         "position": { "x": 1330, "y": 400.25 },
         "positionAbsolute": { "x": 1330, "y": 400.25 },
@@ -147,7 +147,7 @@ export const sample_nodes: NodeExt[] = [
     },
     {
         "id": "77638",
-        "type": "CONTAINS",
+        "type": "PURE",
         "data": { "args": ["Luke", null], "function": "operator.contains" },
         "position": { "x": 1329, "y": 340.25 },
         "positionAbsolute": { "x": 1329, "y": 340.25 },
