@@ -47,6 +47,14 @@ python run.py --script my_script.py --out my_saved_results.json --stdout
 
 From the UI go to the File menu and select to load the sample flow (won't look pretty at the moment because I made changes to the UI, but it will run) and then run using the live run window.
 
+## Collaboration
+
+There is still a lot to do to get to version 1 and I will be updating this as often as I can, but I still do have a day job so if you would like to contribute, please feel free to do any of the following:
+* Use it and give feedback through issues
+* Request all you want (doesn't mean I will put it in the core version, but I can always make custom versions at this point)
+* Fork, create a PR
+* Patreon soon...
+
 ## License
 
 PyFlowAutomatorCore © 2023 by Abinadi Cordova is licensed under CC BY-NC-SA 4.0. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
