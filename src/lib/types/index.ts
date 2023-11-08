@@ -47,6 +47,7 @@ export interface PureConfig {
     name: string;
     label: string;
     category: string;
+    type: string;
     args?: (null | number | string)[];
     kwargs?: { [key: string]: null | number | string };
     function: string;

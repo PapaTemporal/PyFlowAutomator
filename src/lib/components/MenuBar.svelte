@@ -134,6 +134,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                     console.log(e);
                 }
             },
+            disabled: true,
         },
         {
             id: 5,
@@ -156,11 +157,23 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                 let x = 0;
                 let y = 0;
                 let newNodes = [];
-                for (let i = 0; i < nodesList.length; i++) {
+                const tmpNodesList = Object.entries(nodesList).map(
+                    ([k, node]) => node
+                );
+                for (let i = 0; i < tmpNodesList.length; i++) {
+                    const nodeType = tmpNodesList[i].type;
+                    if (
+                        nodeType.includes("GET_VARIABLE") ||
+                        nodeType.includes("SET_VARIABLE")
+                    ) {
+                        (
+                            tmpNodesList[i].kwargs as { variable_name: string }
+                        ).variable_name = "MY_VAR";
+                    }
                     newNodes.push({
                         id: Math.trunc(Math.random() * 100000).toString(),
-                        type: nodesList[i],
-                        data: {},
+                        type: nodeType,
+                        data: tmpNodesList[i],
                         position: { x: x * nodeWidth, y: y * nodeHeight },
                     });
                     x++;

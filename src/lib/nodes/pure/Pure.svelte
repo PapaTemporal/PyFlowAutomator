@@ -14,7 +14,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         else if (data.args.length === 2) tops = ["30%", "70%"];
         else if (data.args.length === 3) tops = ["20%", "50%", "80%"];
     }
-    console.log(data);
 </script>
 
 <div id={data.name} class="pure-node">

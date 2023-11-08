@@ -15,7 +15,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     let varName: string = "";
 
     function addVariable() {
-        console.log(varName);
         if (!(varName in $variables) && varName !== "") {
             $variables = { ...$variables, [varName]: "" };
         }
