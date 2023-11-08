@@ -24,23 +24,30 @@ Another way is to copy the the flow to clipboard and put it into a json file and
 
 ```
 PyFlowAutomatorCore
-usage: run.py [-h] [--http] [--script SCRIPT] [--host HOST] [--port PORT] [--reload] [--stdout] [--out OUT]
+usage: run.py [-h] [--script SCRIPT] [--out OUT] [--stdout] [--http] [--host HOST] [--port PORT]
 
 Run the application.
 
 options:
   -h, --help       show this help message and exit
-  --http           Run the HTTP server.
   --script SCRIPT  Run a Python script instead of the server. Provide the file path.
-  --host HOST      The host to bind to for http and ws servers. Default is localhost.
-  --port PORT      The port to bind to for http and ws servers. Default is 8000.
-  --reload         Reloads on code change. Only available with --http. (BROKEN)
-  --stdout         Prints the function call and results to stdout.
   --out OUT        Filepath to save results to. Only available with --script.
+  --stdout         Prints the function call and results to stdout. Only available with --script.
+  --http           Run FastAPI HTTP/WS server.
+  --host HOST      The host to bind to for http/ws services (overrides PFA_HOST env variable). Default is localhost.
+  --port PORT      The port to bind to for http/ws services (overrides PFA_PORT env variable). Default is 8000.
 
-Examples: 
-python run.py --http --host 0.0.0.0 --port 8080 --stdout
-python run.py --script my_script.py --out my_saved_results.json --stdout
+Examples:
+    python run.py --http --host 0.0.0.0 --port 8080
+    python run.py --script my_script.py --out my_saved_results.json --stdout
+Environment Variables:
+    PFA_LOCAL: set to True when running locally so CORS can be enabled 
+    PFA_TRACE: set to True to enable stdout of all step results for troubleshooting
+    PFA_DB_CLASS: for any ORM/DB extensibility, a class with CRUD operations for flows 
+                that takes no arguments (see app.utils.database for examples) 
+                defaults to SimpleInMemoryDB
+    PFA_HOST: host to use when starting http/ws server
+    PFA_PORT: port to use when starting http/ws server
 ```
 
 ## Examples
