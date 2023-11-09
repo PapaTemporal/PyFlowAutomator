@@ -7,8 +7,16 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import Menu from "./Menu.svelte";
     import { getFlowMenuItems, getRunMenuItems, openMenu } from "./menuItems";
 
-    const { id, name, nodes, edges, variables, configOpen, myFlowOpen } =
-        getContexts();
+    const {
+        id,
+        name,
+        nodes,
+        edges,
+        variables,
+        configOpen,
+        myFlowOpen,
+        liveRunOpen,
+    } = getContexts();
 
     const dispatch = createEventDispatcher();
 
@@ -37,6 +45,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         nodes,
         edges,
         variables,
+        liveRunOpen,
     });
 
     function handleMenuClick(menu: string | null) {
