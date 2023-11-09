@@ -1,36 +1,19 @@
-<!-- This file is licensed under the CC BY-NC-SA 4.0 license.
-See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
+// This file is licensed under the CC BY-NC-SA 4.0 license.
+// See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details.
 
-<script lang="ts">
-    import { writable } from "svelte/store";
-    import type { Writable } from "svelte/store";
-    import { createEventDispatcher, getContext } from "svelte";
-    import type {
-        MenuItem as MenuItemType,
-        NodeExt,
-        Variable,
-    } from "$lib/types";
-    import FileMenu from "./FileMenu.svelte";
-    import type { Edge } from "@xyflow/svelte";
-    import {
-        sample_nodes,
-        sample_edges,
-        sample_variables,
-    } from "$lib/sample/logic_flow";
-    import { nodesList } from "$lib/constants";
+import type { MenuItem } from "$lib/types";
+import { get, writable, type Writable } from "svelte/store";
+import { sample_edges, sample_nodes, sample_variables } from "$lib/sample/logic_flow";
+import { nodesList } from "$lib/constants";
+import type { Node } from "@xyflow/svelte";
 
-    const id: Writable<string> = getContext("id");
-    const name: Writable<string> = getContext("name");
-    const nodes: Writable<NodeExt[]> = getContext("nodes");
-    const edges: Writable<Edge[]> = getContext("edges");
-    const variables: Writable<Variable> = getContext("variables");
-    const configOpen: Writable<boolean> = getContext("configOpen");
-    const myFlowOpen: Writable<boolean> = getContext("myFlowOpen");
-    const liveRunOpen: Writable<boolean> = getContext("liveRunOpen");
 
-    const dispatch = createEventDispatcher();
+export let openMenu: Writable<string | null> = writable(null);
 
-    let flowMenuItems: Writable<MenuItemType[]> = writable([
+export function getFlowMenuItems(contexts: any, dispatch: any) {
+    const { id, name, nodes, edges, variables } = contexts;
+
+    let flowMenuItems: Writable<MenuItem[]> = writable([
         {
             id: 1,
             label: "New Flow",
@@ -50,6 +33,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                 ]);
                 edges.set([]);
                 variables.set({});
+                openMenu.set(null);
             },
         },
         {
@@ -71,11 +55,12 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                             edges.set(flow.edges);
                             variables.set(flow.variables);
                         } catch (e) {
-                            console.log(e);
+                            alert(e);
                         }
                     },
-                    (e) => console.log(e)
+                    (e) => alert(e)
                 );
+                openMenu.set(null);
             },
         },
         {
@@ -110,6 +95,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                     }
                 };
                 input.click();
+                openMenu.set(null);
             },
         },
         {
@@ -133,6 +119,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                 } catch (e) {
                     console.log(e);
                 }
+                openMenu.set(null);
             },
             disabled: true,
         },
@@ -140,11 +127,12 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
             id: 5,
             label: "Load Sample Flow",
             action: (e: MouseEvent) => {
-                id.set("12345678901");
-                name.set("Flow12345678901");
+                id.set("1234567890");
+                name.set("SampleFlow");
                 nodes.set(sample_nodes);
                 edges.set(sample_edges);
                 variables.set(sample_variables);
+                openMenu.set(null);
             },
         },
         {
@@ -167,7 +155,9 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                         nodeType.includes("SET_VARIABLE")
                     ) {
                         (
-                            tmpNodesList[i].kwargs as { variable_name: string }
+                            tmpNodesList[i].kwargs as {
+                                variable_name: string;
+                            }
                         ).variable_name = "MY_VAR";
                     }
                     newNodes.push({
@@ -183,17 +173,42 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                     }
                 }
                 id.set("12345678901");
-                name.set("Flow12345678901");
+                name.set("AllNodes");
                 nodes.set(newNodes);
                 edges.set([]);
                 variables.set({});
+                openMenu.set(null);
             },
         },
         {
             id: 7,
             label: "Save Flow",
-            action: (e: MouseEvent) => console.log("Save Flow"),
-            disabled: true,
+            action: (e: MouseEvent) => {
+                const fileName = `${get(id)}.json`;
+                const text = JSON.stringify(
+                    {
+                        id: get(id),
+                        name: get(name),
+                        nodes: get(nodes),
+                        edges: get(edges),
+                        variables: get(variables),
+                    },
+                    null,
+                    4
+                );
+                const blob = new Blob([text], { type: "application/json" });
+                const url = window.URL || window.webkitURL;
+                const link = url.createObjectURL(blob);
+
+                let a = document.createElement("a");
+                a.setAttribute("download", fileName);
+                a.setAttribute("href", link);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                openMenu.set(null);
+            },
+            disabled: get(id) === "",
         },
         {
             id: 8,
@@ -207,11 +222,11 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
             action: (e: MouseEvent) => {
                 const text = JSON.stringify(
                     {
-                        id: $id,
-                        name: $name,
-                        nodes: $nodes,
-                        edges: $edges,
-                        variables: $variables,
+                        id: get(id),
+                        name: get(name),
+                        nodes: get(nodes),
+                        edges: get(edges),
+                        variables: get(variables),
                     },
                     null,
                     4
@@ -220,41 +235,60 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                     () => dispatch("copy", text),
                     (e) => dispatch("fail", e)
                 );
+                openMenu.set(null);
             },
+            disabled: get(id) === "",
         },
         {
             id: 10,
             label: "Clear Flow",
             action: (e: MouseEvent) => {
-                nodes.set([]);
+                nodes.set([
+                    {
+                        id: "1",
+                        type: "START",
+                        data: { function: "__ignore__" },
+                        position: { x: 0, y: 0 },
+                    },
+                ]);
                 edges.set([]);
                 variables.set({});
+                openMenu.set(null);
             },
+            disabled: get(id) === "",
         },
         {
             id: 11,
             label: "Close Flow",
             action: (e: MouseEvent) => {
-                id.set("1234567890");
-                name.set("Flow1234567890");
+                id.set("");
+                name.set("");
                 nodes.set([]);
                 edges.set([]);
                 variables.set({});
+                openMenu.set(null);
             },
+            disabled: get(id) === "",
         },
     ]);
 
-    let runMenuItems: Writable<MenuItemType[]> = writable([
+    return flowMenuItems;
+}
+
+export function getRunMenuItems(contexts: { [key: string]: Writable<any> }) {
+    const { id, name, nodes, edges, variables, liveRunOpen } = contexts;
+
+    let runMenuItems: Writable<MenuItem[]> = writable([
         {
             id: 1,
             label: "Run Flow",
             action: async (e: MouseEvent) => {
-                if ($nodes.length === 0) {
+                if (get(nodes).length === 0) {
                     alert("Flow is empty");
                     return;
                 }
                 if (
-                    $nodes.filter((node) => node.type === "START").length === 0
+                    get(nodes).filter((node: Node) => node.type === "START").length === 0
                 ) {
                     alert("Flow does not have a START node");
                     return;
@@ -270,88 +304,29 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                     redirect: "follow",
                     referrerPolicy: "no-referrer",
                     body: JSON.stringify({
-                        id: $id,
-                        name: $name,
-                        nodes: $nodes,
-                        edges: $edges,
-                        variables: $variables,
+                        id: get(id),
+                        name: get(name),
+                        nodes: get(nodes),
+                        edges: get(edges),
+                        variables: get(variables),
                     }),
                 })
                     .then((response) => response.json())
                     .catch((e) => console.log(e));
+                openMenu.set(null);
             },
         },
         {
             id: 2,
             label: "Open Live",
-            action: (e: MouseEvent) => liveRunOpen.set(!$liveRunOpen),
+            action: (e: MouseEvent) => {
+                liveRunOpen.set(!get(liveRunOpen));
+                openMenu.set(null);
+            },
         },
     ]);
 
-    let isFlowMenuOpen: Writable<boolean> = writable(false);
-    let isRunMenuOpen: Writable<boolean> = writable(false);
+    return runMenuItems;
 
-    function handleCloseOthers(ignore: string) {
-        if (ignore === "File") {
-            isRunMenuOpen.set(false);
-        } else if (ignore === "Run") {
-            isFlowMenuOpen.set(false);
-        } else {
-            isFlowMenuOpen.set(false);
-            isRunMenuOpen.set(false);
-        }
-    }
-</script>
+}
 
-<div class="menu-bar">
-    <div class="menus">
-        <FileMenu
-            bind:menuItems={flowMenuItems}
-            bind:isOpen={isFlowMenuOpen}
-            closeOthers={handleCloseOthers}
-            label="File"
-        />
-        <FileMenu
-            bind:menuItems={runMenuItems}
-            bind:isOpen={isRunMenuOpen}
-            closeOthers={handleCloseOthers}
-            label="Run"
-        />
-        <FileMenu
-            closeOthers={handleCloseOthers}
-            onClick={() => myFlowOpen.set(!$myFlowOpen)}
-            label="Flow"
-        />
-        <FileMenu
-            closeOthers={handleCloseOthers}
-            onClick={() => configOpen.set(!$configOpen)}
-            label="Debug"
-        />
-    </div>
-    <span>{$name}</span>
-    <div style="flex: 0 1 auto; min-width: 100px;" />
-</div>
-
-<style>
-    .menu-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #333;
-        color: white;
-        height: 30px;
-        padding: 0 10px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: small;
-    }
-    .menus {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        margin-right: 10px;
-    }
-</style>

@@ -17,17 +17,17 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import type { NodeTypesExt, NodeExt, Variable } from "$lib/types";
     import * as operator_nodes from "$lib/nodes";
     import Deletable from "$lib/edges/Deletable.svelte";
-    import MenuBar from "$lib/components/MenuBar.svelte";
+    import MenuBar from "$lib/components/menubar/MenuBar.svelte";
     import StatusBar from "$lib/components/StatusBar.svelte";
     import FlowConfigSidebar from "$lib/components/FlowConfigSidebar.svelte";
-    import MyFlowSidebar from "$lib/components/MyFlowSidebar.svelte";
+    import MyFlowSidebar from "$lib/components/flowsidebar/MyFlowSidebar.svelte";
     import LiveRunBottonbar from "$lib/components/LiveRunBottonbar.svelte";
     import { pureNodes, executableNodes, specialNodes } from "$lib/constants";
 
     const nodeTypes: NodeTypesExt = operator_nodes;
 
-    const id: Writable<string> = writable("1234567890");
-    const name: Writable<string> = writable("Flow1234567890");
+    const id: Writable<string> = writable("");
+    const name: Writable<string> = writable("");
     const nodes: Writable<NodeExt[]> = writable([]);
     const edges: Writable<Edge[]> = writable([]);
     const variables: Writable<Variable> = writable({});
@@ -171,30 +171,44 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 <div class="main">
     <MenuBar />
     <div class="body">
-        <MyFlowSidebar />
-        <div class="main-center">
-            <SvelteFlow
-                id={$id}
-                {nodes}
-                {edges}
-                {nodeTypes}
-                {edgeTypes}
-                fitView
-                on:dragover={(e) => e.preventDefault()}
-                on:drop={onDrop}
-            >
-                <Controls />
-                <Background variant={BackgroundVariant.Lines} />
-                <MiniMap />
-            </SvelteFlow>
-            <LiveRunBottonbar />
-        </div>
-        <FlowConfigSidebar />
+        {#if $id !== ""}
+            <MyFlowSidebar />
+            <div class="main-center">
+                <SvelteFlow
+                    id={$id}
+                    {nodes}
+                    {edges}
+                    {nodeTypes}
+                    {edgeTypes}
+                    fitView
+                    on:dragover={(e) => e.preventDefault()}
+                    on:drop={onDrop}
+                >
+                    <Controls />
+                    <Background variant={BackgroundVariant.Lines} />
+                    <MiniMap />
+                </SvelteFlow>
+                <LiveRunBottonbar />
+            </div>
+            <FlowConfigSidebar />
+        {:else}
+            <div class="no-flow">No Flow Loaded</div>
+        {/if}
     </div>
     <StatusBar />
 </div>
 
 <style>
+    .no-flow {
+        height: 100%;
+        width: 100%;
+        background-color: rgb(107, 107, 107);
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgb(216, 216, 216);
+    }
     .main {
         position: absolute;
         top: 0;

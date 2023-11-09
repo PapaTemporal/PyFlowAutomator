@@ -37,7 +37,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     });
 
     onDestroy(() => {
-        if (resizeObserver) {
+        if (editorElement && resizeObserver) {
             resizeObserver.unobserve(editorElement);
             resizeObserver.disconnect();
         }
