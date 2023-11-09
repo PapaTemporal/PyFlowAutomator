@@ -2,10 +2,8 @@
 See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
 <script lang="ts">
-    import { Position } from "@xyflow/system";
-    import { Handle } from "@xyflow/svelte";
-
-    import type { NodePropsExt } from "$lib/types";
+    import { Handle, Position } from "@xyflow/svelte";
+    import type { NodePropsExt, TemplateArgKwarg } from "$lib/types";
 
     export let data: NodePropsExt["data"];
 
@@ -21,6 +19,28 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     export let xPos: NodePropsExt["xPos"] = 0;
     export let yPos: NodePropsExt["yPos"] = 0;
     export let isConnectable: NodePropsExt["isConnectable"] = undefined;
+
+    let tmpLabels: TemplateArgKwarg[] = [];
+
+    if (data.args) {
+        const argsWithTypes = data.args.map((arg: any) => {
+            if (typeof arg === "string" || arg === undefined || arg === null)
+                return { value: arg, type: "arg" };
+            if (typeof arg === "number")
+                return { value: arg.toString(), type: "arg" };
+            const [key, value] = Object.entries(arg)[0];
+            return { key, value, type: "arg" };
+        });
+        tmpLabels.push(...argsWithTypes);
+    }
+
+    if (data.kwargs) {
+        const kwargsWithTypes = data.kwargs.map((kwarg: any) => {
+            const [key, value] = Object.entries(kwarg)[0];
+            return { key, value, type: "kwarg" };
+        });
+        tmpLabels.push(...kwargsWithTypes);
+    }
 </script>
 
 <div class="node">
@@ -31,14 +51,25 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         style="top: 10px; left: -5px; border: unset; border-radius: unset; border-top-left-radius: 2px; border-bottom-left-radius: 2px; height: 10px;"
     />
     <div class="header">
-        <span>SET {data.kwargs.variable_name}</span>
+        <span>{data.label}</span>
     </div>
-    <div class="body" style="height: 30px;">
+    <div class="body" style="height: {20 * tmpLabels.length + 10}px;">
         <div class="inputs">
-            <div class="input-item" style={"bottom: 5px;"}>
-                <Handle id="value" type="target" position={Position.Left} />
-                <span class="in-label"> data </span>
-            </div>
+            {#each tmpLabels as lab, i}
+                <div
+                    class="input-item"
+                    style={`top: calc(${i} * (100% / ${tmpLabels.length}) + 5px);`}
+                >
+                    <Handle
+                        id={`${lab.type === "kwarg" ? lab.key : i}`}
+                        type="target"
+                        position={Position.Left}
+                    />
+                    <span class="in-label">
+                        {lab?.key}
+                    </span>
+                </div>
+            {/each}
         </div>
         <div class="outputs">
             <div class="output-item" style={`bottom: 5px;`}>

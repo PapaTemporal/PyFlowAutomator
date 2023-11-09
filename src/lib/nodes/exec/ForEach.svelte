@@ -8,6 +8,19 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import type { NodePropsExt } from "$lib/types";
 
     export let data: NodePropsExt["data"];
+
+    // unused props - we need to list them here in order to prevent warnings
+    export let targetPosition: NodePropsExt["targetPosition"] = Position.Top;
+    export let sourcePosition: NodePropsExt["sourcePosition"] = Position.Bottom;
+    export let id: NodePropsExt["id"] = "";
+    export let selected: NodePropsExt["selected"] = undefined;
+    export let type: NodePropsExt["type"] = undefined;
+    export let zIndex: NodePropsExt["zIndex"] = undefined;
+    export let dragging: NodePropsExt["dragging"] = false;
+    export let dragHandle: NodePropsExt["dragHandle"] = undefined;
+    export let xPos: NodePropsExt["xPos"] = 0;
+    export let yPos: NodePropsExt["yPos"] = 0;
+    export let isConnectable: NodePropsExt["isConnectable"] = undefined;
 </script>
 
 <div id="node">

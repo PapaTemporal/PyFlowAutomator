@@ -369,22 +369,23 @@ export const executableNodes: PureDictionary = {
     "http_get": {
         label: "http get",
         category: "requests",
-        type: "HTTP_GET",
-        args: [null],
+        type: "EXEC",
+        args: [{ url: null }],
         function: "requests.get"
     },
     "json_path": {
         label: "json path",
         category: "data",
-        type: "JSON_PATH",
-        kwargs: { expression: null },
+        type: "EXEC",
+        args: [{ json: null }],
+        kwargs: [{ expression: null }],
         function: "extract_json"
     },
     "print": {
         label: "print",
         category: "builtins",
-        type: "PRINT",
-        args: [null],
+        type: "EXEC",
+        args: [{ text: null }],
         function: "builtins.print"
     },
 }

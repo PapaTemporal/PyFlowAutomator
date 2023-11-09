@@ -48,11 +48,16 @@ export interface PureConfig {
     label: string;
     category: string;
     type: string;
-    args?: (null | number | string)[];
-    kwargs?: { [key: string]: null | number | string };
+    args?: (null | number | string | Omit<TemplateArgKwarg, "type">)[];
+    kwargs?: Omit<TemplateArgKwarg, "type">[] | { [key: string]: any };
     function: string;
 }
 
 export interface PureDictionary {
     [key: string]: Omit<PureConfig, 'name'>;
+}
+
+export interface TemplateArgKwarg {
+    type: string;
+    [key: string]: null | number | string
 }

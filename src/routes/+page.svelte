@@ -14,7 +14,12 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import { writable, type Writable } from "svelte/store";
     import { setContext } from "svelte";
     import "@xyflow/svelte/dist/style.css";
-    import type { NodeTypesExt, NodeExt, Variable } from "$lib/types";
+    import type {
+        NodeTypesExt,
+        NodeExt,
+        Variable,
+        PureConfig,
+    } from "$lib/types";
     import * as operator_nodes from "$lib/nodes";
     import Deletable from "$lib/edges/Deletable.svelte";
     import MenuBar from "$lib/components/menubar/MenuBar.svelte";
@@ -23,6 +28,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import MyFlowSidebar from "$lib/components/flowsidebar/MyFlowSidebar.svelte";
     import LiveRunBottonbar from "$lib/components/LiveRunBottonbar.svelte";
     import { pureNodes, executableNodes, specialNodes } from "$lib/constants";
+    import Str from "$lib/nodes/pure/casting/Str.svelte";
 
     const nodeTypes: NodeTypesExt = operator_nodes;
 
@@ -109,18 +115,24 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         }
 
         function createNode() {
-            let data = {};
+            let data = {} as Omit<PureConfig, "name">;
 
             if (nodeType == "GET_VARIABLE") {
                 data = specialNodes[nodeType.toLowerCase()];
-                data = { ...data, kwargs: { variable_name: varName } };
+                data = {
+                    ...data,
+                    kwargs: { variable_name: varName as string },
+                };
             }
 
             if (nodeType == "SET_VARIABLE") {
                 data = specialNodes[nodeType.toLowerCase()];
                 data = {
                     ...data,
-                    kwargs: { variable_name: varName, value: varValue },
+                    kwargs: {
+                        variable_name: varName as string,
+                        value: varValue as string,
+                    },
                 };
             }
 
@@ -141,7 +153,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
             const tmpNode = {
                 id: Math.trunc(Math.random() * 100000).toString(),
-                type: nodeType,
+                type: data.type,
                 data: data,
                 position: {
                     x: (e.clientX - rect.left) / scale,

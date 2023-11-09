@@ -2,7 +2,9 @@
 // See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details.
 
 // import pure function
-import PURE from './pure/Pure.svelte';
+import PURE from './Generators/Pure.svelte';
+// import executable functions
+import EXEC from './Generators/Exec.svelte';
 // import custom functions
 import GET_VARIABLE from './custom/GetVariable.svelte';
 import SET_VARIABLE from './custom/SetVariable.svelte';
@@ -10,21 +12,17 @@ import START from './custom/Start.svelte';
 // import executable functions
 import IF from './exec/Branch.svelte';
 import FOR from './exec/ForEach.svelte';
-import HTTP_GET from './exec/HttpGet.svelte';
-import JSON_PATH from './exec/JsonExtract.svelte';
-import PRINT from './exec/Print.svelte';
 
 export {
     // pure function
     PURE,
+    // executable functions
+    EXEC,
     // custom functions
     GET_VARIABLE,
     // executable functions
     IF,
     FOR,
-    HTTP_GET,
-    JSON_PATH,
-    PRINT,
     SET_VARIABLE,
     START,
 }
