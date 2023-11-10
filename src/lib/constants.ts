@@ -3,7 +3,7 @@
 
 import type { PureDictionary } from "./types";
 
-const unlistedNodes = ["GET_VARIABLE", "SET_VARIABLE", "PURE"];
+const unlistedNodes = ["get_variable", "set_variable", "start", "print"];
 
 export const pureNodes: PureDictionary = {
     "==": {
@@ -351,6 +351,107 @@ export const pureNodes: PureDictionary = {
     },
 };
 
+export const castNodes: PureDictionary = {
+    "toBool": {
+        label: "bool",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.bool"
+    },
+    "toByteArray": {
+        label: "byte[]",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.bytearray"
+    },
+    "toBytes": {
+        label: "bytes",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.bytes"
+    },
+    "toDict": {
+        label: "dict",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.dict"
+    },
+    "toFloat": {
+        label: "float",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "operator.float"
+    },
+    "toInt": {
+        label: "int",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.int"
+    },
+    "toList": {
+        label: "list",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.list"
+    },
+    "toStr": {
+        label: "str",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.str"
+    },
+    "toTuple": {
+        label: "tuple",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.tuple"
+    },
+    "toSet": {
+        label: "set",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.set"
+    },
+    "toFrozenSet": {
+        label: "frozen set",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.frozenset"
+    },
+    "enumerate": {
+        label: "enumerate",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.enumerate"
+    },
+    "reversed": {
+        label: "reversed",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.reversed"
+    },
+    "sorted": {
+        label: "sorted",
+        category: "cast",
+        type: "CAST",
+        args: [null],
+        function: "builtins.sorted"
+    },
+};
+
 export const executableNodes: PureDictionary = {
     "if": {
         label: "if",
@@ -413,20 +514,30 @@ export const specialNodes: PureDictionary = {
     },
 }
 
-export const nodesList = Object.fromEntries(
-    Object.entries({ ...pureNodes, ...executableNodes, ...specialNodes }).filter(
+export const filteredNodesList = Object.fromEntries(
+    Object.entries({ ...pureNodes, ...executableNodes, ...castNodes, ...specialNodes }).filter(
         ([key]) => !unlistedNodes.includes(key)
     )
 );
 
-export const categories = getCategories({ ...pureNodes, ...executableNodes });
+export const allNodesList = Object.fromEntries(
+    Object.entries({ ...pureNodes, ...executableNodes, ...castNodes, ...specialNodes })
+);
 
-function getCategories(nodes: PureDictionary): string[] {
-    const categories: string[] = [];
-    for (const node of Object.values(nodes)) {
-        if (!categories.includes(node.category)) {
-            categories.push(node.category);
+export const rootNodesList = Object.fromEntries(
+    Object.entries({ ...pureNodes, ...executableNodes, ...castNodes })
+);
+
+export const groupedNodesList = getGroupedNodes();
+
+function getGroupedNodes() {
+    const groupedNodes: { [category: string]: string[] } = {};
+    for (const key of Object.keys(filteredNodesList)) {
+        const category = filteredNodesList[key].category;
+        if (!groupedNodes[category]) {
+            groupedNodes[category] = [];
         }
+        groupedNodes[category].push(key);
     }
-    return categories;
+    return groupedNodes;
 }

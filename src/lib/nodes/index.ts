@@ -3,6 +3,8 @@
 
 // import pure function
 import PURE from './Generators/Pure.svelte';
+// import cast function
+import CAST from './Generators/Cast.svelte';
 // import executable functions
 import EXEC from './Generators/Exec.svelte';
 // import custom functions
@@ -16,6 +18,8 @@ import FOR from './exec/ForEach.svelte';
 export {
     // pure function
     PURE,
+    // cast function
+    CAST,
     // executable functions
     EXEC,
     // custom functions

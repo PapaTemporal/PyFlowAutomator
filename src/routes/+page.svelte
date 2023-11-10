@@ -27,8 +27,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import FlowConfigSidebar from "$lib/components/FlowConfigSidebar.svelte";
     import MyFlowSidebar from "$lib/components/flowsidebar/MyFlowSidebar.svelte";
     import LiveRunBottonbar from "$lib/components/LiveRunBottonbar.svelte";
-    import { pureNodes, executableNodes, specialNodes } from "$lib/constants";
-    import Str from "$lib/nodes/pure/casting/Str.svelte";
+    import { specialNodes, rootNodesList } from "$lib/constants";
 
     const nodeTypes: NodeTypesExt = operator_nodes;
 
@@ -55,7 +54,11 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         const rect = target?.getBoundingClientRect() as DOMRect;
         const scale = rect.width / target?.offsetWidth;
 
-        let nodeType = e.dataTransfer?.getData("type");
+        let nType = e.dataTransfer
+            ?.getData("type")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">");
+
         const varName = e.dataTransfer?.getData("varName");
         const varValue = e.dataTransfer?.getData("varValue");
 
@@ -86,16 +89,14 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
             const getOption = document.createElement("button");
             getOption.textContent = "GET";
             getOption.addEventListener("click", () => {
-                nodeType = "GET_VARIABLE";
-                createNode();
+                createNode("get_variable");
             });
             contextMenu.appendChild(getOption);
 
             const setOption = document.createElement("button");
             setOption.textContent = "SET";
             setOption.addEventListener("click", () => {
-                nodeType = "SET_VARIABLE";
-                createNode();
+                createNode("set_variable");
             });
             contextMenu.appendChild(setOption);
 
@@ -103,7 +104,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
             window.addEventListener("click", onClickAway);
         } else {
-            createNode();
+            createNode(nType as string);
         }
 
         function onClickAway() {
@@ -114,41 +115,24 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
             }
         }
 
-        function createNode() {
+        function createNode(nodeType: string) {
             let data = {} as Omit<PureConfig, "name">;
 
-            if (nodeType == "GET_VARIABLE") {
-                data = specialNodes[nodeType.toLowerCase()];
+            if (specialNodes.hasOwnProperty(nodeType as string)) {
+                let tmpKwargs: { [key: string]: any } = {
+                    variable_name: varName as string,
+                };
+                if (nodeType == "set_variable") {
+                    tmpKwargs["value"] = varValue as string;
+                }
                 data = {
-                    ...data,
-                    kwargs: { variable_name: varName as string },
+                    ...specialNodes[nodeType as string],
+                    kwargs: tmpKwargs,
                 };
             }
 
-            if (nodeType == "SET_VARIABLE") {
-                data = specialNodes[nodeType.toLowerCase()];
-                data = {
-                    ...data,
-                    kwargs: {
-                        variable_name: varName as string,
-                        value: varValue as string,
-                    },
-                };
-            }
-
-            let key = (nodeType as string)
-                .replace(/&lt;/g, "<")
-                .replace(/&gt;/g, ">");
-            if (pureNodes.hasOwnProperty(key)) {
-                data = JSON.parse(JSON.stringify(pureNodes[key]));
-                nodeType = "PURE";
-            }
-
-            if ({ ...executableNodes, ...specialNodes }.hasOwnProperty(key)) {
-                data = JSON.parse(
-                    JSON.stringify({ ...executableNodes, ...specialNodes }[key])
-                );
-                nodeType = nodeType?.toUpperCase() as string;
+            if (rootNodesList.hasOwnProperty(nodeType as string)) {
+                data = rootNodesList[nodeType as string];
             }
 
             const tmpNode = {

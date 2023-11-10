@@ -4,7 +4,7 @@
 import type { MenuItem } from "$lib/types";
 import { get, writable, type Writable } from "svelte/store";
 import { sample_edges, sample_nodes, sample_variables } from "$lib/sample/logic_flow";
-import { nodesList } from "$lib/constants";
+import { allNodesList } from "$lib/constants";
 import type { Node } from "@xyflow/svelte";
 
 
@@ -145,7 +145,7 @@ export function getFlowMenuItems(contexts: any, dispatch: any) {
                 let x = 0;
                 let y = 0;
                 let newNodes = [];
-                const tmpNodesList = Object.entries(nodesList).map(
+                const tmpNodesList = Object.entries(allNodesList).map(
                     ([k, node]) => node
                 );
                 for (let i = 0; i < tmpNodesList.length; i++) {

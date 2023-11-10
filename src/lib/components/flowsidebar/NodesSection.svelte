@@ -2,20 +2,11 @@
 See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
 <script lang="ts">
-    import { nodesList, categories } from "$lib/constants";
+    import { groupedNodesList } from "$lib/constants";
 
     function onDragStart(e: DragEvent): void {
         const target = e.target as HTMLElement;
         e.dataTransfer?.setData("type", target.innerHTML);
-    }
-
-    const groupedNodes: { [category: string]: string[] } = {};
-    for (const key of Object.keys(nodesList)) {
-        const category = nodesList[key].category;
-        if (!groupedNodes[category]) {
-            groupedNodes[category] = [];
-        }
-        groupedNodes[category].push(key);
     }
 
     let openCategory: string | null = null;
@@ -31,7 +22,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     <div class="header">Nodes</div>
     <input bind:value={searchTerm} placeholder="Search..." />
     <div class="body">
-        {#each Object.entries(groupedNodes).filter(([category, nodes]) => category.includes(searchTerm) || nodes.some( (node) => node.includes(searchTerm) )) as [category, nodes]}
+        {#each Object.entries(groupedNodesList).filter(([category, nodes]) => category.includes(searchTerm) || nodes.some( (node) => node.includes(searchTerm) )) as [category, nodes]}
             <details open={openCategory === category}>
                 <summary
                     class="summary"
