@@ -150,3 +150,7 @@ package
 
 # End of https://www.toptal.com/developers/gitignore/api/svelte,node
 src/.DS_Store
+
+# custom
+results.json
+test.json

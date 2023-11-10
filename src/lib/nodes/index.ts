@@ -8,9 +8,9 @@ import CAST from './Generators/Cast.svelte';
 // import executable functions
 import EXEC from './Generators/Exec.svelte';
 // import custom functions
-import GET_VARIABLE from './custom/GetVariable.svelte';
-import SET_VARIABLE from './custom/SetVariable.svelte';
-import START from './custom/Start.svelte';
+import GET_VARIABLE from './special/GetVariable.svelte';
+import SET_VARIABLE from './special/SetVariable.svelte';
+import START from './special/Start.svelte';
 // import executable functions
 import IF from './exec/Branch.svelte';
 import FOR from './exec/ForEach.svelte';
