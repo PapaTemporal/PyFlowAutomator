@@ -4,7 +4,7 @@
 import type { MenuItem } from "$lib/types";
 import { get, writable, type Writable } from "svelte/store";
 import { sample_edges, sample_nodes, sample_variables } from "$lib/sample/logic_flow";
-import { allNodesList } from "$lib/constants";
+import { allNodesList } from "$lib/nodes";
 import type { Node } from "@xyflow/svelte";
 
 

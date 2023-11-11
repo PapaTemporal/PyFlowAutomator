@@ -2,7 +2,7 @@
 See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
 
 <script lang="ts">
-    import { groupedNodesList } from "$lib/constants";
+    import { groupedNodesList } from "$lib/nodes";
 
     function onDragStart(e: DragEvent): void {
         const target = e.target as HTMLElement;

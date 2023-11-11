@@ -14,22 +14,15 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     import { writable, type Writable } from "svelte/store";
     import { setContext } from "svelte";
     import "@xyflow/svelte/dist/style.css";
-    import type {
-        NodeTypesExt,
-        NodeExt,
-        Variable,
-        PureConfig,
-    } from "$lib/types";
-    import * as operator_nodes from "$lib/nodes";
+    import type { NodeExt, Variable, PureConfig } from "$lib/types";
+    import { nodeTypes } from "$lib/nodes";
     import Deletable from "$lib/edges/Deletable.svelte";
     import MenuBar from "$lib/components/menubar/MenuBar.svelte";
     import StatusBar from "$lib/components/StatusBar.svelte";
     import FlowConfigSidebar from "$lib/components/FlowConfigSidebar.svelte";
     import MyFlowSidebar from "$lib/components/flowsidebar/MyFlowSidebar.svelte";
     import LiveRunBottonbar from "$lib/components/LiveRunBottonbar.svelte";
-    import { specialNodes, rootNodesList } from "$lib/constants";
-
-    const nodeTypes: NodeTypesExt = operator_nodes;
+    import { nodeTypeDefs } from "$lib/nodes";
 
     const id: Writable<string> = writable("");
     const name: Writable<string> = writable("");
@@ -42,6 +35,8 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     setContext("nodes", nodes);
     setContext("edges", edges);
     setContext("variables", variables);
+
+    const { specialNodes, rootNodesList } = nodeTypeDefs;
 
     const edgeTypes: EdgeTypes = {
         Deletable,
