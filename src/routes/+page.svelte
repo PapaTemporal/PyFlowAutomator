@@ -8,15 +8,14 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         Background,
         BackgroundVariant,
         MiniMap,
-        type EdgeTypes,
         type Edge,
+        type Connection,
     } from "@xyflow/svelte";
     import { writable, type Writable } from "svelte/store";
     import { setContext } from "svelte";
     import "@xyflow/svelte/dist/style.css";
     import type { NodeExt, Variable, PureConfig } from "$lib/types";
     import { nodeTypes } from "$lib/nodes";
-    import Deletable from "$lib/edges/Deletable.svelte";
     import MenuBar from "$lib/components/menubar/MenuBar.svelte";
     import StatusBar from "$lib/components/StatusBar.svelte";
     import FlowConfigSidebar from "$lib/components/FlowConfigSidebar.svelte";
@@ -37,10 +36,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     setContext("variables", variables);
 
     const { specialNodes, rootNodesList } = nodeTypeDefs;
-
-    const edgeTypes: EdgeTypes = {
-        Deletable,
-    };
 
     function onDrop(e: DragEvent) {
         e.preventDefault();
@@ -170,7 +165,6 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                     {nodes}
                     {edges}
                     {nodeTypes}
-                    {edgeTypes}
                     fitView
                     on:dragover={(e) => e.preventDefault()}
                     on:drop={onDrop}

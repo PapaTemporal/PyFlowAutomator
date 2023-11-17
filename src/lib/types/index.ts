@@ -2,6 +2,7 @@
 // See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details.
 
 import type { Node, NodeTypes, Edge } from "@xyflow/svelte";
+import type { key } from "@xyflow/svelte/dist/lib/store";
 import type { NodeProps } from "@xyflow/system";
 import type { Writable } from "svelte/store";
 
@@ -21,6 +22,8 @@ export interface NodePropsExt extends NodeProps {
     function: string | null;
     args: any[];
     kwargs: { [key: string]: any };
+    advanced?: boolean;
+    connected?: { [key: string]: boolean };
 }
 
 export interface MenuItem {
@@ -59,5 +62,5 @@ export interface PureDictionary {
 
 export interface TemplateArgKwarg {
     type: string;
-    [key: string]: null | number | string
+    [key: string]: any;
 }

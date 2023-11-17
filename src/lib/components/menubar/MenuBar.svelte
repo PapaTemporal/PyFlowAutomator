@@ -35,6 +35,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
             nodes,
             edges,
             variables,
+            myFlowOpen,
         },
         dispatch
     );

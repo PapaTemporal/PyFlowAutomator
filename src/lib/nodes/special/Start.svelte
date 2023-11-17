@@ -27,7 +27,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         id="start"
         type="source"
         position={Position.Right}
-        style="top: 53%; right: -5px; border: unset; border-radius: unset; border-top-right-radius: 2px; border-bottom-right-radius: 2px; height: 10px;"
+        style="top: 53%; right: -3px; border: unset; border-radius: unset; border-top-right-radius: 2px; border-bottom-right-radius: 2px; height: 10px;"
     />
 </div>
 

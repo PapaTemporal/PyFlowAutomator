@@ -44,6 +44,7 @@ import START from './special/Start.svelte';
 import IF from './exec/Branch.svelte';
 import FOR from './exec/ForEach.svelte';
 import SET_VARIABLE from './exec/SetVariable.svelte';
+import HTTP_REQUEST from './exec/HttpRequest.svelte';
 
 // used to pass custom node types into svelteflow and for use in node definitions
 export const nodeTypes: NodeTypesExt = {
@@ -53,6 +54,7 @@ export const nodeTypes: NodeTypesExt = {
     CAST,
     // executable functions
     EXEC,
+    HTTP_REQUEST,
     // custom functions
     GET_VARIABLE,
     // executable functions
@@ -526,11 +528,26 @@ const executableNodes: PureDictionary = {
         function: "for_each"
     },
     "http_get": {
-        label: "http get",
-        category: "requests",
-        type: "EXEC",
-        args: [{ url: null }],
-        function: "requests.get"
+        label: "http request",
+        category: "http",
+        type: "HTTP_REQUEST",
+        kwargs: [
+            { method: "GET" }, { url: null },
+            { params: null, advanced: true },
+            { headers: null, advanced: true },
+            { data: null, advanced: true },
+            { json: null, advanced: true },
+            { cookies: null, advanced: true },
+            { files: null, advanced: true },
+            { auth: null, advanced: true },
+            { timeout: null, advanced: true },
+            { allow_redirects: null, advanced: true },
+            { proxies: null, advanced: true },
+            { verify: null, advanced: true },
+            { stream: null, advanced: true },
+            { cert: null, advanced: true }
+        ],
+        function: "requests.request"
     },
     "json_path": {
         label: "json path",
@@ -539,13 +556,6 @@ const executableNodes: PureDictionary = {
         args: [{ json: null }],
         kwargs: [{ expression: null }],
         function: "extract_json"
-    },
-    "print": {
-        label: "print",
-        category: "builtins",
-        type: "EXEC",
-        args: [{ text: null }],
-        function: "builtins.print"
     },
 }
 

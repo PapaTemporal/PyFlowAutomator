@@ -48,7 +48,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         id="e-in"
         type="target"
         position={Position.Left}
-        style="top: 10px; left: -5px; border: unset; border-radius: unset; border-top-left-radius: 2px; border-bottom-left-radius: 2px; height: 10px;"
+        style="top: 10px; left: -3px; border: unset; border-radius: unset; border-top-left-radius: 2px; border-bottom-left-radius: 2px; height: 10px;"
     />
     <div class="header">
         <span>{data.label}</span>
@@ -86,7 +86,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         id="e-out"
         type="source"
         position={Position.Right}
-        style="top: 10px; right: -5px; border: unset; border-radius: unset; border-top-right-radius: 2px; border-bottom-right-radius: 2px; height: 10px;"
+        style="top: 10px; right: -3px; border: unset; border-radius: unset; border-top-right-radius: 2px; border-bottom-right-radius: 2px; height: 10px;"
     />
 </div>
 

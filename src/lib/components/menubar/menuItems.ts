@@ -11,7 +11,7 @@ import type { Node } from "@xyflow/svelte";
 export let openMenu: Writable<string | null> = writable(null);
 
 export function getFlowMenuItems(contexts: any, dispatch: any) {
-    const { id, name, nodes, edges, variables } = contexts;
+    const { id, name, nodes, edges, variables, myFlowOpen } = contexts;
 
     let flowMenuItems: Writable<MenuItem[]> = writable([
         {
@@ -34,6 +34,7 @@ export function getFlowMenuItems(contexts: any, dispatch: any) {
                 edges.set([]);
                 variables.set({});
                 openMenu.set(null);
+                myFlowOpen.set(true);
             },
         },
         {
@@ -54,6 +55,7 @@ export function getFlowMenuItems(contexts: any, dispatch: any) {
                             nodes.set(flow.nodes);
                             edges.set(flow.edges);
                             variables.set(flow.variables);
+                            myFlowOpen.set(true);
                         } catch (e) {
                             alert(e);
                         }
@@ -84,6 +86,7 @@ export function getFlowMenuItems(contexts: any, dispatch: any) {
                                     nodes.set(flow.nodes);
                                     edges.set(flow.edges);
                                     variables.set(flow.variables);
+                                    myFlowOpen.set(true);
                                 } catch (e) {
                                     console.log(e);
                                 } finally {
@@ -116,6 +119,7 @@ export function getFlowMenuItems(contexts: any, dispatch: any) {
                     nodes.set(flow.nodes);
                     edges.set(flow.edges);
                     variables.set(flow.variables);
+                    myFlowOpen.set(true);
                 } catch (e) {
                     console.log(e);
                 }
@@ -133,6 +137,7 @@ export function getFlowMenuItems(contexts: any, dispatch: any) {
                 edges.set(sample_edges);
                 variables.set(sample_variables);
                 openMenu.set(null);
+                myFlowOpen.set(true);
             },
         },
         {

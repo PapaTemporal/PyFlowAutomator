@@ -26,7 +26,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         id="e-in"
         type="target"
         position={Position.Left}
-        style="top: 10px; left: -5px; border: unset; border-radius: unset; border-top-left-radius: 2px; border-bottom-left-radius: 2px; height: 10px;"
+        style="top: 10px; left: -3px; border: unset; border-radius: unset; border-top-left-radius: 2px; border-bottom-left-radius: 2px; height: 10px;"
     />
     <Handle
         id="condition"
@@ -50,13 +50,13 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         id="true"
         type="source"
         position={Position.Right}
-        style="top: 31px; right: -5px; border: unset; border-radius: unset; border-top-right-radius: 2px; border-bottom-right-radius: 2px; height: 10px;"
+        style="top: 31px; right: -3px; border: unset; border-radius: unset; border-top-right-radius: 2px; border-bottom-right-radius: 2px; height: 10px;"
     />
     <Handle
         id="false"
         type="source"
         position={Position.Right}
-        style="top: 46px; right: -5px; border: unset; border-radius: unset; border-top-right-radius: 2px; border-bottom-right-radius: 2px; height: 10px;"
+        style="top: 46px; right: -3px; border: unset; border-radius: unset; border-top-right-radius: 2px; border-bottom-right-radius: 2px; height: 10px;"
     />
 </div>
 

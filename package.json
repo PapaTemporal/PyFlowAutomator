@@ -20,7 +20,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@xyflow/svelte": "^0.0.26",
+		"@xyflow/svelte": "file:../../xyflow/packages/svelte",
+		"@xyflow/system": "file:../../xyflow/packages/system",
 		"monaco-editor": "^0.44.0"
 	}
 }
