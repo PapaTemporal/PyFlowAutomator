@@ -19,6 +19,19 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     export let xPos: NodePropsExt["xPos"] = 0;
     export let yPos: NodePropsExt["yPos"] = 0;
     export let isConnectable: NodePropsExt["isConnectable"] = undefined;
+    // just use to prevent warnings
+    data;
+    targetPosition;
+    sourcePosition;
+    id;
+    selected;
+    type;
+    zIndex;
+    dragging;
+    dragHandle;
+    xPos;
+    yPos;
+    isConnectable;
 </script>
 
 <div id="node">

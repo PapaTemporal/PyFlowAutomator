@@ -19,6 +19,18 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     export let xPos: NodePropsExt["xPos"] = 0;
     export let yPos: NodePropsExt["yPos"] = 0;
     export let isConnectable: NodePropsExt["isConnectable"] = undefined;
+    // just use to prevent warnings
+    targetPosition;
+    sourcePosition;
+    id;
+    selected;
+    type;
+    zIndex;
+    dragging;
+    dragHandle;
+    xPos;
+    yPos;
+    isConnectable;
 
     let tmpLabels: TemplateArgKwarg[] = [];
     let tmpLabelsAdvanced: TemplateArgKwarg[] = [];
@@ -38,7 +50,8 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     }
 
     let isAdvancedOpen: boolean = false;
-    let isMethodOpen: boolean = false;
+    let isMethodConnected: boolean = false;
+    let isUrlConnected: boolean = false;
 </script>
 
 <div class="node" style={`width: ${!data.connected?.url ? "150" : "100"}px;`}>
@@ -61,14 +74,14 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                             type="target"
                             position={Position.Left}
                             on:connect={() => {
-                                isMethodOpen = true;
+                                isMethodConnected = true;
                             }}
                             on:disconnect={() => {
-                                isMethodOpen = false;
+                                isMethodConnected = false;
                             }}
                         />
                         <span class="in-label">
-                            {#if isMethodOpen}
+                            {#if isMethodConnected}
                                 method
                             {:else}
                                 <select
@@ -89,9 +102,15 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                             id="url"
                             type="target"
                             position={Position.Left}
+                            on:connect={() => {
+                                isUrlConnected = true;
+                            }}
+                            on:disconnect={() => {
+                                isUrlConnected = false;
+                            }}
                         />
                         <span class="in-label">
-                            {#if data.connected?.url}
+                            {#if isUrlConnected}
                                 url
                             {:else}
                                 <input
