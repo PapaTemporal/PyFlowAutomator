@@ -4,6 +4,10 @@ PyFlowAutomator is a web-based visual scripting UI for the PyFlowAutomatorCore e
 
 ## Usage
 
+<pre style="color: yellow">
+WARNING: Currently only works with the on-connect-fix branch of my xyflow repo. I created a PR to add it to the official version but that will take time for them to review.
+</pre>
+
 To use the PyFlowAutomator, just run the UI with `npm run dev` or build it for production with `npm run build` and run it that way.
 
 PyFlowAutomator uses [@xyflow/svelte](https://svelteflow.dev/) (from the creators of reactflow) so the same rules apply with a few modifications.

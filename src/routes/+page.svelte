@@ -8,6 +8,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
         Background,
         BackgroundVariant,
         MiniMap,
+        type Node,
         type Edge,
         type Connection,
     } from "@xyflow/svelte";
@@ -36,6 +37,23 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     setContext("variables", variables);
 
     const { specialNodes, rootNodesList } = nodeTypeDefs;
+
+    function onDelete({ edges }: { nodes: Node[]; edges: Edge[] }) {
+        // call disconnect on handles that are sources/targets of the deleted edges
+        for (const edge of edges) {
+            const e = new CustomEvent("disconnect");
+
+            let handleDomNode = document.querySelector(
+                `.svelte-flow__handle[data-id="${edge.source}-${edge.sourceHandle}-source"]`,
+            );
+            handleDomNode?.dispatchEvent(e);
+
+            handleDomNode = document.querySelector(
+                `.svelte-flow__handle[data-id="${edge.target}-${edge.targetHandle}-target"]`,
+            );
+            handleDomNode?.dispatchEvent(e);
+        }
+    }
 
     function onDrop(e: DragEvent) {
         e.preventDefault();
@@ -168,6 +186,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                     fitView
                     on:dragover={(e) => e.preventDefault()}
                     on:drop={onDrop}
+                    ondelete={onDelete}
                 >
                     <Controls />
                     <Background variant={BackgroundVariant.Lines} />
