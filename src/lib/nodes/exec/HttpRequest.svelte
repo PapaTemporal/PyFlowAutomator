@@ -54,7 +54,12 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     let isUrlConnected: boolean = false;
 </script>
 
-<div class="node" style={`width: ${!data.connected?.url ? "150" : "100"}px;`}>
+<div
+    class="node"
+    style={`width: ${
+        !data.connected?.url ? "150" : "100"
+    }px; border: 1px solid ${selected ? "blue" : "black"};`}
+>
     <Handle
         id="e-in"
         type="target"
@@ -73,10 +78,10 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                             id="method"
                             type="target"
                             position={Position.Left}
-                            on:connect={() => {
+                            onconnect={() => {
                                 isMethodConnected = true;
                             }}
-                            on:disconnect={() => {
+                            ondisconnect={() => {
                                 isMethodConnected = false;
                             }}
                         />
@@ -102,10 +107,10 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
                             id="url"
                             type="target"
                             position={Position.Left}
-                            on:connect={() => {
+                            onconnect={() => {
                                 isUrlConnected = true;
                             }}
-                            on:disconnect={() => {
+                            ondisconnect={() => {
                                 isUrlConnected = false;
                             }}
                         />

@@ -55,7 +55,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     }
 </script>
 
-<div class="node">
+<div class="node" style={`border: 1px solid ${selected ? "blue" : "black"};`}>
     <Handle
         id="e-in"
         type="target"

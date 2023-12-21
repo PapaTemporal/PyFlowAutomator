@@ -33,7 +33,11 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     isConnectable;
 </script>
 
-<div id={data.name} class="pure-node">
+<div
+    id={data.name}
+    class="pure-node"
+    style={`border: 1px solid ${selected ? "blue" : "black"};`}
+>
     <Handle id={"0"} type="target" position={Position.Left} />
     <span>{data.label}</span>
     <Handle id="__ignore__" type="source" position={Position.Right} />

@@ -34,7 +34,7 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     isConnectable;
 </script>
 
-<div id="node">
+<div id="node" style={`border: 1px solid ${selected ? "blue" : "black"};`}>
     <span>START</span>
     <Handle
         id="start"

@@ -41,7 +41,11 @@ See https://creativecommons.org/licenses/by-nc-sa/4.0/ for details. -->
     }
 </script>
 
-<div id={data.name} class="pure-node">
+<div
+    id={data.name}
+    class="pure-node"
+    style={`border: 1px solid ${selected ? "blue" : "black"};`}
+>
     {#each data.args as arg, i}
         <Handle
             id={`${i}`}
